@@ -1,0 +1,139 @@
+<html lang="pt-br">
+<head>  
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Energiza - Recuperar Senha</title>
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="styles/RecuperarSenha/styles.css" rel="stylesheet">
+	
+</head>
+
+<body style="background-color:  #4e73df; min-height: 100vh;">
+	
+	<div class="container">
+	    <div class="row justify-content-center">
+	        <div class="col-xl-6 col-lg-8 col-md-9">
+	            <div class="card o-hidden border-0 shadow-lg my-5">
+	                <div class="card-body p-5">
+
+						<!-- Exibindo erro, caso presente -->
+						<div id="erroRecuperarSenha" class="alert alert-danger" style="display: none;"></div>
+													
+	                    <!-- Formulário para enviar o e-mail -->
+	                    <form id="form-email" action="../servlet/recuperarSenha" method="post">
+	                        <div class="text-center mb-4">
+	                            <h1 class="h4 text-gray-900">Recuperar senha</h1>
+	                            <p class="mb-3">Preencha o campo abaixo com o e-mail cadastrado, que iremos lhe enviar um código de recuperação.</p>
+	                        </div>
+	                        <div class="form-group">
+	                            <label for="email">E-mail *</label>
+	                            <input type="email" id="email" name="email" class="form-control form-control-user" placeholder="E-mail cadastrado" required>
+	                        </div>
+	                        <div class="d-flex justify-content-between align-items-center mt-4">
+	                            <a href="../index.html">Voltar para login</a>
+	                            <button type="submit" class="btn btn-primary btn-user">Enviar código</button>
+	                        </div>
+	                    </form>
+
+	                    <!-- Formulário para inserir o token (inicialmente oculto) -->
+	                    <form id="form-token" action="../servlet/validarTokenSenha" method="post" style="display: none;">
+	                        <div class="text-center mb-4">
+	                            <h1 class="h4 text-gray-900">Validar Token de Recuperação</h1>
+	                            <p class="mb-3">Preencha o campo abaixo com o token enviado no e-mail.</p>
+	                        </div>
+	                        <div class="form-group">
+	                            <label for="token">Código de Recuperação *</label>
+	                            <input type="text" id="token" name="token" class="form-control form-control-user" placeholder="Digite o código recebido" required>
+	                        </div>
+	                        <div class="d-flex justify-content-between align-items-center mt-4">
+	                            <a href="recuperarSenha.jsp">Reenviar código</a>
+	                            <button type="submit" class="btn btn-primary btn-user">Validar código</button>
+	                        </div>
+	                    </form>
+
+	                    <!-- Formulário para alterar senha (inicialmente oculto) -->
+	                    <form id="form-senha" action="../servlet/AlterarSenhaUsuario" method="post" style="display: none;">
+	                        <div class="text-center mb-4">
+	                            <h1 class="h4 text-gray-900">Alterar senha</h1>
+	                            <p class="mb-3">Preencha os campos de senha abaixo para realizar a alteração.</p>
+	                        </div>
+	                        <div class="form-group">
+	                            <label for="senha">Senha Nova *</label>
+	                            <input type="password" id="senha" name="senha" class="form-control form-control-user" placeholder="Digite a nova senha" required>
+	                        </div>
+	                        <div class="form-group">
+	                            <label for="confirma-senha">Confirmar a Senha Nova *</label>
+	                            <input type="password" id="confirma-senha" name="confirma-senha" class="form-control form-control-user" placeholder="Digite novamente a mesma senha" required>
+	                        </div>
+	                        <div class="d-flex justify-content-between align-items-center mt-4">
+	                            <a href="../index.html">Voltar para login</a>
+	                            <button type="submit" class="btn btn-primary btn-user">Alterar senha</button>
+	                        </div>
+	                    </form>
+
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+
+	<!-- Bootstrap core JavaScript-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+		
+	<script>
+	    window.onload = function () {
+	        const urlParams = new URLSearchParams(window.location.search);
+	        if (urlParams.has('mostrarToken')) {
+	            mostrarCampoToken();
+	        } else if (urlParams.has('mostrarSenha')) {
+	            mostrarCampoSenha();
+	        }
+	    };
+
+	    function mostrarCampoToken() {
+	        document.getElementById("form-email").style.display = "none";
+	        document.getElementById("form-token").style.display = "block";
+	        document.getElementById("form-senha").style.display = "none";
+	    }
+
+	    function mostrarCampoSenha() {
+	        document.getElementById("form-email").style.display = "none";
+	        document.getElementById("form-token").style.display = "none";
+	        document.getElementById("form-senha").style.display = "block";
+	    }
+	</script>
+
+	<script>
+		    // Verifica se há um parâmetro 'erro' na URL
+		    const urlParams = new URLSearchParams(window.location.search);
+		    if (urlParams.has('erro')) {
+		        const erro = urlParams.get('erro');
+		        const erroMensagem = document.getElementById('erroRecuperarSenha');
+
+		        // Exibe mensagens de erro de acordo com o valor do parâmetro 'erro'
+		        if (erro === '1') {
+		            erroMensagem.textContent = 'E-mail não encontrado, realize seu cadastro.';
+		        } else if (erro === '2') {
+		            erroMensagem.textContent = 'Ocorreu um erro ao enviar o e-mail, tente mais tarde.';
+				} else if (erro === '3') {
+					erroMensagem.textContent = 'Preencher o campo e-mail.';
+		        }
+		        erroMensagem.style.display = 'block';
+		    }
+	</script>
+			
+</body>
+</html>

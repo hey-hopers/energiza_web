@@ -1,0 +1,161 @@
+/* Corpo */
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #ffffff;
+    width: 100%;
+    height: 100vh;
+}
+
+/* NavBar */
+
+.navbar {
+    width: 100%;
+    justify-content: flex-end;
+    background-color: #ffffff;
+    padding: 20px 10px;
+}
+
+.navbar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Alinhamento do usuário à direita */
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Ícone do usuário */
+.img-profile {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Nome do usuário */
+.username {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* Removendo o posicionamento absoluto quebrado */
+.navbar .nav-item {
+    position: relative;
+    list-style: none;
+}
+
+/* Estilização da Sidebar */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+    transition: all 0.3s;
+    padding-top: 20px;
+    align-items: center;
+}
+
+.sidebar .sidebar-brand {
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+}
+
+.sidebar .sidebar-text {
+    margin-left: 10px;
+    font-size: 18px;
+    align-items: center;
+    color: white;
+}
+
+.sidebar .sidebar-divider {
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.sidebar ul {
+    padding-left: 0;
+    align-items: center;
+}
+
+
+.sidebar .sidebar-link {
+    display: block;
+    align-items: center;
+    padding: 10px 20px;
+    color: white;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+.sidebar .sidebar-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+}
+
+.sidebar .sidebar-sublink {
+    display: block;
+    padding: 5px 20px;
+    color: white;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+.sidebar .sidebar-sublink:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}
+
+/* Recolher a sidebar */
+.sidebar.collapsed {
+    width: 80px;
+}
+
+.sidebar.collapsed .sidebar-text {
+    display: none;
+}
+
+.sidebar.collapsed ul {
+    display: none;
+}
+
+/* Botão da sidebar */
+.menu-toggle-icon {
+    font-size: 24px;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    left: 260px; /* Posição ao lado da sidebar */
+    transition: left 0.3s;
+}
+
+.sidebar.collapsed + #page-content .menu-toggle-icon {
+    left: 90px; /* Ajusta posição quando recolhido */
+}
+
+.menu-toggle-icon i {
+    color: #007bff; /* Azul Bootstrap */
+}
+
+/* Ajuste do conteúdo principal */
+#page-content {
+    margin-left: 250px;
+    transition: margin-left 0.3s;
+    width: 100%;
+    padding: 0;
+}
+
+.sidebar.collapsed + #page-content {
+    margin-left: 80px;
+}

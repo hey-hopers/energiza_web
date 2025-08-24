@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    <title>Energiza - Home</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- FontAwesome para ícones -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    
+     <!-- Fontes Customizadas -->
+     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+     <link
+         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+         rel="stylesheet">
+ 
+     <!-- Estilos Customizados CSS -->
+     <link rel="stylesheet" href="styles/menu/styles.css"> 	 
+	 <link rel="stylesheet" href="styles/meuNegocio/minhasFaturas/styles.css"> 
+
+</head>
+
+<body>
+
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class="bg-primary sidebar collapsed" id="sidebar">
+            <div class="sidebar-brand text-center py-3">
+                <i class="fas fa-laugh-wink fa-2x"></i>
+                <span class="sidebar-text">Energiza</span>
+            </div>
+
+            <hr class="sidebar-divider">
+
+            <ul class="list-unstyled">
+                <li>
+                    <a href="menuPrincipal.html" class="sidebar-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                </li>
+                <li>
+                    <a href="minhaConta.html" class="sidebar-link" ><i class="fas fa-user"></i> Minha Conta</a>
+                </li>
+                <li>
+                    <a href="" class="sidebar-link" data-toggle="collapse" data-target="#componentsMenu">
+                        <i class="fas fa-briefcase"></i> Meu Negócio
+                    </a>
+                    <ul id="componentsMenu" class="collapse list-unstyled ml-3">
+                        <li><a href="meuNegocio.html" class="sidebar-sublink">Cadastro</a></li>
+                        <li><a href="unidadesConsumo.html" class="sidebar-sublink">Unidades de Consumo</a></li>
+						<li><a href="minhasFaturas.html" class="sidebar-sublink">Minhas Faturas</a></li>
+                        <li><a href="minhasUsinas.html" class="sidebar-sublink">Minhas Usinas</a></li>
+                        <li><a href="meusConsumidores.html" class="sidebar-sublink">Meus Consumidores</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="text-center">
+                <button class="btn btn-primary" id="menuToggle"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+        <!-- End Sidebar -->
+
+        <!-- Conteúdo Principal -->
+        <div id="page-content">
+            <nav class="navbar">
+                <!-- Container flexível para alinhar os itens -->
+                <div class="navbar-content">
+            
+                    <div class="navbar-right">
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="username" id="usernameDisplay">Visitante</span>
+                                <img class="img-profile rounded-circle" id="userProfileImage" src="imagens/undraw_profile.svg">
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu shadow animated--grow-in" aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="minhaConta.html">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Minha Conta 
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Configurações
+                                </a>
+                                <div class="dropdown-divider"></div> 
+                                <a class="dropdown-item" href="logout.jsp">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Sair
+                                </a>
+                            </div>
+                        </li>
+                    </div>
+                </div>
+            </nav>            
+            
+            <main class="content-fatura" id="mainContent">
+                <div class="container-fatura">
+					
+					<h2>Minhas Faturas</h2>
+					
+					<div id="messageArea" class="alert alert-info" style="display: none;"></div>
+					
+					<div id="buttonFatura" class="action-bar">
+					    <button onclick="abrirAnexo()">Novo</button>
+					    <button onclick="excluirFaturas()" style="display: none;">Excluir</button>
+						<button onclick="filtrarFaturas()" style="display: none;">Filtrar</button>
+					</div>
+					
+					<div id="dadosAnexo" style="display: none;">
+						<form id="formAnexo" onsubmit="event.preventDefault(); salvarAnexo();" enctype="multipart/form-data">
+						    <div class="file-box">
+						        <input type="file" id="file-upload" name="file-upload" multiple>
+						        <div id="file-list" class="file-names"></div>
+						    </div>
+						    <button type="submit">Enviar</button>
+						    <button type="button" onclick="fecharAnexo()">Cancelar</button>
+						</form>
+					</div>
+					
+					<div id="dadosFatura" style="display: none;">
+					    <form id="formFatura" onsubmit="event.preventDefault(); salvarFatura();" enctype="multipart/form-data">
+							<div class="dados-row">
+								<div class="form-row" id="row_unidadeConsumo">
+									<label for="unidadeConsumo">Unidade Consumo:</label>
+					                <input type="text" id="unidadeConsumo" name="unidadeConsumo" required>
+								</div>  
+							  
+								<div class="form-row" id="row_referencia">
+									<label for="referencia">Refêrencia:</label>
+									<input type="text" id="referencia" name="referencia" required>
+								</div>
+								
+								<div class="form-row" id="row_dias_lidos">
+									<label for="dias_lidos">Dias Lidos:</label>
+									<input type="text" id="dias_lidos" name="dias_lidos" required>
+								</div>
+											
+								<div class="form-row" id="row_medidor">
+									<label for="medidor">Medidor:</label>
+									<input type="text" id="medidor" name="medidor" required>
+								</div>
+																					
+								<div class="form-row" id="row_vencimento">
+									<label for="vencimento">Vencimento:</label>
+									<input type="text" id="vencimento" name="vencimento" required>
+								</div>
+								
+								<div class="form-row" id="row_data_leitura_atual">
+									<label for="data_leitura_atual">Data Leitura Atual:</label>
+									<input type="text" id="data_leitura_atual" name="data_leitura_atual" required>
+								</div>
+																
+								<div class="form-row" id="row_data_leitura_anterior">
+									<label for="data_leitura_anterior">Data Leitura Anterior:</label>
+									<input type="text" id="data_leitura_anterior" name="data_leitura_anterior" required>
+								</div>
+									
+								<div class="form-row" id="row_data_leitura_proxima">
+									<label for="data_leitura_proxima">Data Leitura Próxima:</label>
+									<input type="text" id="data_leitura_proxima" name="data_leitura_proxima" required>
+								</div>
+								
+								<div class="form-row" id="row_leitura_atual">
+									<label for="leitura_atual">Leitura  Atual:</label>
+									<input type="text" id="leitura_atual" name="leitura_atual" required>
+								</div>
+								
+								<div class="form-row" id="row_leitura_anterior">
+									<label for="leitura_anterior">Leitura  Anterior:</label>
+									<input type="text" id="leitura_anterior" name="leitura_anterior" required>
+								</div>
+																
+								<div class="form-row" id="row_total_apurado">
+									<label for="total_apurado">Total Apurado:</label>
+									<input type="text" id="total_apurado" name="total_apurado" required>
+								</div>
+								
+								<div class="form-row" id="row_valor_total">
+									<label for="valor_total">Valor Total:</label>
+									<input type="text" id="valor_total" name="valor_total" required>
+								</div>
+							</div>
+													
+							<button type="submit">Salvar</button>
+							<button type="button" onclick="fecharFormulario()">Cancelar</button>
+					    </form>
+					</div>	
+
+					<div id="tabFatura">                
+						<table width="90%" border="1" id="tabelaFaturas">
+						    <thead></thead>
+						    <tbody></tbody>
+						</table>
+					</div>					
+				</div>				
+            </main>
+        </div>
+    </div>
+
+    <!-- jQuery e Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- JavaScript personalizado -->
+    <script src="scripts/Menu/script.js"></script>
+	
+	<script>
+		
+		function mostrarMensagem(mensagem, tipo = 'info') {
+	        const area = document.getElementById("messageArea");
+	        area.className = `alert alert-${tipo}`;
+	        area.innerText = mensagem;
+	        area.style.display = 'block';
+	        setTimeout(() => area.style.display = 'none', 4000);
+	    }
+				
+		function abrirFormulario() {
+	        document.getElementById("dadosFatura").style.display = "block";
+			document.getElementById("dadosAnexo").style.display = "none";
+	        document.getElementById("buttonFatura").style.display = "none";
+	        document.getElementById("tabelaFaturas").style.display = "none";
+	        limparFormulario();
+	    }
+		
+		function carregarFormulario() {
+	        document.getElementById("dadosFatura").style.display = "block";
+			document.getElementById("dadosAnexo").style.display = "none";
+	        document.getElementById("buttonFatura").style.display = "none";
+	        document.getElementById("tabelaFaturas").style.display = "none";
+	    }
+				
+	    function fecharFormulario() {
+	        document.getElementById("dadosFatura").style.display = "none";
+	        document.getElementById("buttonFatura").style.display = "block";
+	        document.getElementById("tabelaFaturas").style.display = "table";
+	        limparFormulario();
+			limparAnexo();
+	    }
+
+	    function limparFormulario() {
+	        document.getElementById("usinaId").value = "";
+	        document.getElementById("nomeUsina").value = "";
+	        document.getElementById("porcentagem").value = "";
+	        document.getElementById("idUnidadeConsumo").value = "";
+	        ucEditando = null;
+	    }
+				
+		function abrirAnexo() {
+	        document.getElementById("dadosAnexo").style.display = "block";
+	        document.getElementById("buttonFatura").style.display = "none";
+	        document.getElementById("tabelaFaturas").style.display = "none";
+	        limparAnexo();
+	    }
+
+		function fecharAnexo() {
+	        document.getElementById("dadosAnexo").style.display = "none";
+	        document.getElementById("buttonFatura").style.display = "block";
+	        document.getElementById("tabelaFaturas").style.display = "table";
+	        limparAnexo();
+	    }
+		
+		function limparAnexo() {
+	        document.getElementById("file-upload").value = "";
+	        document.getElementById("file-list").innerHTML = "";
+	    }
+				
+		function loadNavbarUser() {
+		    fetch('servlet/minhaConta')
+		        .then(response => {
+		            if (!response.ok) throw new Error('Falha na resposta do servidor.');
+		            return response.json();
+		        })
+		        .then(data => {
+		            if (data.success && data.usuario) {
+		                const user = data.usuario;
+		                const usernameSpan = document.getElementById('usernameDisplay');
+		                const userImage = document.getElementById('userProfileImage');
+
+		                usernameSpan.textContent = user.nome || 'Usuário';
+
+		                if (user.imagemPerfil && user.imagemPerfil.trim() !== "") {
+		                    userImage.src = "imagens/perfil/" + user.imagemPerfil;
+		                } else {
+		                    userImage.src = "imagens/undraw_profile.svg";
+		                }
+
+		            } else {
+		                console.warn('Usuário não logado ou dados não encontrados');
+		            }
+		        })
+		        .catch(error => {
+		            console.error('Erro ao carregar dados do usuário na navbar:', error);
+		        });
+		}
+		
+		loadNavbarUser();
+		
+		const fileInput = document.getElementById('file-upload');
+	    const fileListDisplay = document.getElementById('file-list');
+
+	    fileInput.addEventListener('change', () => {
+	      const files = fileInput.files;
+	      if (files.length === 0) {
+	        fileListDisplay.textContent = "Nenhum arquivo selecionado";
+	      } else {
+	        const names = Array.from(files).map(file => `• ${file.name}`);
+	        fileListDisplay.innerHTML = names.join('<br>');
+	      }
+	    });
+			
+		function salvarAnexo() {
+		    const fileInput = document.getElementById('file-upload');
+		    if (fileInput.files.length === 0) {
+		        mostrarMensagem("Selecione um arquivo antes de enviar", "warning");
+		        return;
+		    }
+
+		    const formData = new FormData();
+		    for (let i = 0; i < fileInput.files.length; i++) {
+		        formData.append("files", fileInput.files[i]);
+		    }
+
+		    fetch("servlet/uploadFatura", {
+		        method: "POST",
+		        body: formData
+		    })
+		    .then(response => {
+		        if (!response.ok) throw new Error("Erro ao enviar arquivo");
+		        return response.json();
+		    })
+		    .then(data => {
+		        if (data.success) {
+					
+					console.log(data);
+					document.getElementById("unidadeConsumo").value = data.fatura.unidadeConsumo || "";
+					document.getElementById("referencia").value = data.fatura.referencia || "";											
+		            document.getElementById("vencimento").value = data.fatura.vencimento || "";
+		            document.getElementById("data_leitura_anterior").value = data.fatura.data_leitura_anterior || "";
+		            document.getElementById("data_leitura_atual").value = data.fatura.data_leitura_atual || "";
+		            document.getElementById("data_leitura_proxima").value = data.fatura.data_leitura_proxima || "";
+		            document.getElementById("dias_lidos").value = data.fatura.diasLidos || "";
+					document.getElementById("medidor").value = data.fatura.medidor || "";
+					document.getElementById("leitura_anterior").value = data.fatura.leituraAnterior || "";
+					document.getElementById("leitura_atual").value = data.fatura.leituraAtual || "";
+					document.getElementById("total_apurado").value = data.fatura.totalApurado || "";
+					document.getElementById("valor_total").value = data.fatura.valorTotal || "";
+
+					carregarFormulario();
+		            mostrarMensagem("Informações extraídas com sucesso!", "success");
+		        } else {
+		            mostrarMensagem(data.message || "Não foi possível processar a fatura", "danger");
+		        }
+		    })
+		    .catch(error => {
+		        console.error(error);
+		        mostrarMensagem("Erro no envio do arquivo", "danger");
+		    });
+		}
+			
+	</script>
+		
+
+</body>
+</html>

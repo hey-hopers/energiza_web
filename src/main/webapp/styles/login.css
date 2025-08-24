@@ -1,0 +1,143 @@
+body {
+    margin: 0;
+    font-family: 'Poppins', Arial, sans-serif; /* Fonte moderna */
+    background: linear-gradient(135deg, #0f4c75, #1b262c);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: 15px; /* Bordas mais suaves */
+    width: 350px; /* Um pouco mais largo */
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3); /* Sombra mais evidente */
+    transition: transform 0.2s ease-in-out;
+}
+
+.container:hover {
+    transform: scale(1.05); /* Pequeno zoom ao passar o mouse */
+}
+
+h1 {
+    font-size: 28px; /* Fonte maior */
+    font-weight: 600; /* Deixe o título mais destacado */
+    text-align: center;
+    margin-bottom: 25px;
+    color: #00bfff; /* Destaque no título */
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 15px 0;
+    border: none;
+    border-bottom: 2px solid white;
+    background: rgba(255, 255, 255, 0.2); /* Fundo sutilmente mais claro */
+    color: white;
+    font-size: 16px;
+    border-radius: 5px; /* Adicionando leve arredondamento */
+    box-sizing: border-box; /* Isso vai garantir que o padding não afete o tamanho */
+    transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+input:focus {
+    outline: none;
+    border-bottom: 2px solid #00bfff;
+    background: rgba(255, 255, 255, 0.3); /* Destaque no foco */
+}
+
+label {
+    display: block;
+    font-size: 15px; /* Fonte um pouco maior */
+    font-weight: 500; /* Leve ênfase */
+    margin-bottom: 8px;
+}
+
+.checkbox {
+    display: flex;            /* Use flexbox para alinhar os itens */
+    align-items: center;      /* Alinha os itens verticalmente ao centro */
+    font-size: 14px;
+}
+
+.checkbox input {
+    margin-right: 5px;        /* Pequeno espaço entre o checkbox e o texto */
+    width: 20px;              /* Define a largura do checkbox */
+    height: 20px;             /* Define a altura do checkbox */
+}
+
+.checkbox label {
+    margin: 0;                /* Remove qualquer margem extra */
+    display: inline-block;    /* Faz com que o label ocupe o espaço do texto */
+    padding-left: 5px;        /* Ajusta o espaço entre o checkbox e o texto */
+    line-height: 20px;        /* Alinha verticalmente o texto com o checkbox */
+}
+
+.senhaUsuario {
+	display: flex;            /* Use flexbox para alinhar os itens */
+	align-items: center; 
+}
+
+.senhaUsuario a {
+	color: white;	
+	font-size: 12px; /* Fonte um pouco maior */
+	padding-left: 200px; 
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #00bfff, #009acd);
+    color: white;
+    font-size: 18px; /* Aumente o tamanho do texto */
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+button:hover {
+    background: linear-gradient(90deg, #009acd, #0077be);
+    transform: translateY(-2px); /* Efeito de "levantar" */
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.register {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.register a {
+    color: #00bfff;
+    font-weight: bold; /* Destaque maior nos links */
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.register a:hover {
+    text-decoration: underline;
+    color: #009acd;
+}
+
+/* Media Queries para responsividade */
+@media (max-width: 768px) {
+    .container {
+        width: 90%; /* Ajuste para telas menores */
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    input, button {
+        font-size: 14px;
+    }
+}

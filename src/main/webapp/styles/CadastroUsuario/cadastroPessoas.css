@@ -1,0 +1,193 @@
+
+
+.form-container {
+    display: flex;
+    padding-top: 30px;
+    flex-direction: column;
+    align-items: center; /* Alinha o conteúdo no centro */
+    justify-content: center; /* Centraliza verticalmente */
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    max-width: 600px;
+    text-align: center; /* Centraliza o texto e os inputs */
+}
+
+input {
+    width: 100%;
+    margin-top: 15px;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+}
+
+button {
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 18px; /* Botões menores */
+    padding: 10px 15px; /* Ajustando tamanho */
+    border: none;
+    border-radius: 8px;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.botao-container {
+    display: flex;
+    justify-content: center; /* Centraliza os botões */
+    width: 100%;
+    gap: 20px; /* Adiciona espaçamento entre os botões */
+    margin-top: 20px;
+}
+
+.rede-social {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.botao-remover {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 30px;
+    width: 30px;
+    margin-top: 20px;
+    padding: 5px;
+}
+
+#redes-sociais-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+#redes-sociais-lista {
+    max-height: 150px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 100%;
+}
+
+.image {
+    width: 120px;
+    height: 120px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.image:hover {
+    transform: scale(1.1);
+}
+
+.image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.image-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.image-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.image.active {
+    border: 4px solid #007BFF;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.triangle {
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #007BFF;
+    margin-top: 5px;
+    display: none;
+}
+
+.image.active + .triangle {
+    display: block;
+}
+
+.botao-imagem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Espaço entre a imagem e o texto */
+    padding: 50px 90px;
+    border: 1px solid #ccc;
+    background-color: #007BFF;
+    cursor: pointer;
+    text-align: center;
+}
+
+.botao-imagem img {
+    display: block;
+    margin: 0 auto;
+}
+
+#form-pessoa-endereco {
+    max-width: 500px;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.input-container {
+    display: flex;
+    gap: 10px;
+}
+
+.input-container input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 95vw;
+        height: auto;
+    }
+
+    input, button {
+        width: 100%;
+    }
+
+    .botao-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+}

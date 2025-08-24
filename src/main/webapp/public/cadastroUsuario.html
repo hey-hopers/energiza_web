@@ -1,0 +1,106 @@
+<html lang="pt-br">
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Energiza - Cadastrar Usuário</title>
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="styles/CadastroUsuario/styles.css" rel="stylesheet">
+	
+</head>
+
+<body style="background-color:  #4e73df; min-height: 100vh;">
+	
+	<div class="container">
+	    <!-- Outer Row -->
+	    <div class="row justify-content-center">
+	        <div class="col-xl-6 col-lg-6 col-md-8">
+	            <div class="card o-hidden border-0 shadow-lg my-5">
+	                <div class="card-body p-0">
+	                    <!-- Card Body -->
+	                    <div class="p-5">
+	                        <div class="text-center">
+	                            <h1 class="h2 text-gray-900 mb-4">Cadastro</h1>
+	                        </div>
+
+	                        <!-- Exibindo erro, caso presente -->
+	                        <div id="erroCadastro" class="alert alert-danger" style="display: none;"></div>
+
+	                        <form class="user" action="../servlet/cadastroUsuario" method="post" autocomplete="off">
+	                            <div class="form-group">
+	                                <label for="nome">Nome *</label>
+	                                <input type="text" class="form-control form-control-user" id="nome" name="nome" placeholder="Digite seu nome" required>
+	                            </div>
+
+	                            <div class="form-group">
+	                                <label for="email">E-mail *</label>
+	                                <input type="email" class="form-control form-control-user" id="email" name="email" placeholder="Digite seu e-mail" required>
+	                            </div>
+
+	                            <div class="form-group">
+	                                <label for="senha">Senha *</label>
+	                                <input type="password" class="form-control form-control-user" id="senha" name="senha" placeholder="Crie uma senha" required>
+	                            </div>
+
+	                            <div class="form-group">
+	                                <label for="confirmaSenha">Confirmar senha *</label>
+	                                <input type="password" class="form-control form-control-user" id="confirmaSenha" name="confirmaSenha" placeholder="Confirme sua senha" required>
+	                            </div>
+
+	                            <div class="form-group">
+	                                <div class="custom-control custom-checkbox small">
+	                                    <input type="checkbox" class="custom-control-input" id="termos" name="termos" required>
+	                                    <label class="custom-control-label" for="termos">Eu concordo com os termos.</label>
+	                                </div>
+	                            </div>
+
+	                            <button type="submit" class="btn btn-primary btn-user btn-block">
+	                                Cadastrar
+	                            </button>
+	                        </form>
+
+	                        <hr>
+	                        <div class="text-center">
+	                            <a href="../index.html">Já tem conta?</a>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+
+	<!-- Bootstrap core JavaScript-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+	
+	<script>
+		    // Verifica se há um parâmetro 'erro' na URL
+		    const urlParams = new URLSearchParams(window.location.search);
+		    if (urlParams.has('erro')) {
+		        const erro = urlParams.get('erro');
+		        const erroMensagem = document.getElementById('erroMensagem');
+
+		        // Exibe mensagens de erro de acordo com o valor do parâmetro 'erro'
+		        if (erro === '1') {
+		            erroMensagem.textContent = 'E-mail ou senha incorretos.';
+		        } else if (erro === '2') {
+		            erroMensagem.textContent = 'E-mail e senha são obrigatórios.';
+		        }
+		        erroMensagem.style.display = 'block';
+		    }
+	</script>
+	
+</body>
+</html>

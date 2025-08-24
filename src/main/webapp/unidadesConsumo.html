@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Energiza - Unidades de Consumo</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- FontAwesome para ícones -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    
+    <!-- CSS personalizado -->
+    <link rel="stylesheet" href="styles/menu/styles.css">
+	<link rel="stylesheet" href="styles/meuNegocio/unidadesConsumo/styles.css"> 
+     
+</head>
+<body>
+
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class="bg-primary sidebar collapsed" id="sidebar">
+            <div class="sidebar-brand text-center py-3">
+                <i class="fas fa-laugh-wink fa-2x"></i>
+                <span class="sidebar-text">Energiza</span>
+            </div>
+
+            <hr class="sidebar-divider">
+
+            <ul class="list-unstyled">
+                <li>
+                    <a href="menuPrincipal.html" class="sidebar-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                </li>
+                <li>
+                    <a href="minhaConta.html" class="sidebar-link" ><i class="fas fa-user"></i> Minha Conta</a>
+                </li>
+                <li>
+                    <a href="" class="sidebar-link" data-toggle="collapse" data-target="#componentsMenu">
+                        <i class="fas fa-briefcase"></i> Meu Negócio
+                    </a>
+                    <ul id="componentsMenu" class="collapse list-unstyled ml-3">
+						<li><a href="meuNegocio.html" class="sidebar-sublink">Cadastro</a></li>
+                        <li><a href="unidadesConsumo.html" class="sidebar-sublink">Unidades de Consumo</a></li>
+						<li><a href="minhasFaturas.html" class="sidebar-sublink">Minhas Faturas</a></li>
+                        <li><a href="minhasUsinas.html" class="sidebar-sublink">Minhas Usinas</a></li>
+                        <li><a href="meusConsumidores.html" class="sidebar-sublink">Meus Consumidores</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="text-center">
+                <button class="btn btn-primary" id="menuToggle"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+        <!-- End Sidebar -->
+
+        <!-- Conteúdo Principal -->
+        <div id="page-content">
+            <nav class="navbar">
+                <!-- Container flexível para alinhar os itens -->
+                <div class="navbar-content">
+            
+                    <div class="navbar-right">
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="username">Kauã Hoepers</span>
+                                <img class="img-profile rounded-circle" src="imagens/undraw_profile.svg">
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu shadow animated--grow-in" aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="minhaConta.html">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Minha Conta 
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Configurações
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Sair
+                                </a>
+                            </div>
+                        </li>
+                    </div>
+                </div>
+            </nav>          
+            
+			<main class="content-unidadeConsumo" id="mainContent">
+				<div class="container-unidadeConsumo">
+				    <h2>Unidades de Consumo</h2>
+					
+				    <div id="messageArea" class="alert alert-info" style="display: none;"></div>
+
+					<div id="buttonUnidadeConsumo" class="action-bar">
+					    <button onclick="abrirFormulario()">Novo</button>
+					    <button onclick="excluirUnidadeConsumo()">Excluir</button>
+						<button onclick="filtrarUnidadeConsumo()">Filtrar</button>
+					</div>
+					
+					<div id="formUnidadeConsumo" style="display: none;">
+						
+						<form id="formUnidadeConsumo" onsubmit="event.preventDefault(); salvarUnidadeConsumo();">
+					        <div class="accordion">
+								
+					            <div class="accordion-item">
+					                <h3 onclick="toggleAccordion(this)">Dados Gerais</h3>
+					                <div class="accordion-content-initial" active>
+					                    <label for="uc_codigo">Código:</label>
+					                    <input type="text" id="uc_codigo" name="uc_codigo" required><br>
+
+					                    <label>
+					                        É Geradora:
+					                        <input type="checkbox" id="eh_geradora" name="eh_geradora" value="1">
+					                    </label><br>
+
+										<label for="medidor">Medidor:</label>
+										<input type="text" id="medidor" name="medidor" required><br>
+																				
+					                    <label for="etapa">Etapa:</label>
+					                    <input type="text" id="etapa" name="etapa" required><br>
+										
+										
+					                </div>
+					            </div>
+					           
+					            <div class="accordion-item">
+					                <h3 onclick="toggleAccordion(this)">Dados Endereço</h3>
+					                <div class="accordion-content">
+					                    <label for="cep">CEP:</label>
+					                    <input type="text" name="cep" id="cep" placeholder="CEP">
+
+					                    <label for="endereco">Endereço:</label>
+					                    <input type="text" name="endereco" id="endereco" placeholder="Endereço">
+
+					                    <label for="numero">Número:</label>
+					                    <input type="text" name="numero" id="numero" placeholder="Número">
+
+					                    <label for="complemento">Complemento:</label>
+					                    <input type="text" name="complemento" id="complemento" placeholder="Complemento">
+
+					                    <label for="bairro">Bairro:</label>
+					                    <input type="text" name="bairro" id="bairro" placeholder="Bairro">
+
+					                    <label for="cidade">Cidade:</label>
+					                    <input type="text" name="cidade" id="cidade" placeholder="Cidade">
+
+					                    <label for="estado">Estado:</label>
+					                    <input type="text" name="estado" id="estado" placeholder="Estado">
+
+					                    <label for="pais">País:</label>
+					                    <input type="text" name="pais" id="pais" placeholder="País">
+					                </div>
+					            </div>
+					        </div>
+
+					        <br>
+					        <button type="submit" id="saveButton">Salvar</button>
+							<button type="button" onclick="fecharFormulario()">Cancelar</button>
+					    </form>										   
+					</div>
+
+					<table width="90%" border="1" id="tabelaUnidadesConsumo">
+					    <thead></thead>
+					    <tbody></tbody>
+					</table>	
+					
+				    
+				</div>
+			</main>
+        </div>
+    </div>
+
+    <!-- jQuery e Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- JavaScript personalizado -->
+	<script>
+		
+		let ucEditando = null;
+
+	    document.addEventListener('DOMContentLoaded', carregarUnidadeConsumo);
+
+	    function carregarUnidadeConsumo() {
+	        fetch('servlet/unidadeConsumo')
+	            .then(res => res.json())
+	            .then(data => {
+	                if (data.success) {
+	                    preencherTabela(data.unidades);
+	                } else {
+	                    mostrarMensagem(data.message || 'Erro ao carregar unidades de consumo.', 'danger');
+	                }
+	            })
+	            .catch(err => {
+	                console.error(err);
+	                mostrarMensagem('Erro ao buscar unidades de consumo.', 'danger');
+	            });
+	    }
+		
+		function preencherTabela(unidades) {
+	        const tbody = document.querySelector('#tabelaUnidadesConsumo tbody');
+	        tbody.innerHTML = '';
+
+	        unidades.forEach(unidade => {
+	            const tr = document.createElement('tr');
+	            tr.innerHTML = `
+	                <td style="text-align:center;"><input type="checkbox" data-id="${unidade.id}"></td>
+	                <td>${unidade.id_unidade_consumo}</td>
+					<td>${unidade.uc_codigo}</td>
+					<td>${unidade.apelido}</td>
+	                <td style="text-align:center;">
+	                    <button onclick='editar(${JSON.stringify(unidade)})'>Editar</button>
+	                </td>
+	            `;
+	            tbody.appendChild(tr);
+	        });
+	    }
+		
+		function abrirFormulario() {
+	        document.getElementById("formUnidadeConsumo").style.display = "block";
+	        document.getElementById("buttonUnidadeConsumo").style.display = "none";
+	        document.getElementById("tabelaUnidadesConsumo").style.display = "none";
+	        limparFormulario();
+	    }
+
+	    function fecharFormulario() {
+	        document.getElementById("formUnidadeConsumo").style.display = "none";
+	        document.getElementById("buttonUnidadeConsumo").style.display = "block";
+	        document.getElementById("tabelaUnidadesConsumo").style.display = "table";
+	        limparFormulario();
+	    }
+
+		function limparFormulario() {
+		    document.getElementById("uc_codigo").value = "";
+		    document.getElementById("eh_geradora").checked = false;
+		    document.getElementById("eh_consumidora").checked = false;
+		    document.getElementById("etapa").value = "";
+		    document.getElementById("nome").value = "";
+		    document.getElementById("documento").value = "";
+		    document.getElementById("cep").value = "";
+		    document.getElementById("endereco").value = "";
+		    document.getElementById("numero").value = "";
+		    document.getElementById("complemento").value = "";
+		    document.getElementById("bairro").value = "";
+		    document.getElementById("cidade").value = "";
+		    document.getElementById("estado").value = "";
+		    document.getElementById("pais").value = "";
+		    ucEditando = null;
+		}
+			
+				
+		function loadNavbarUser() {
+		    fetch('servlet/minhaConta')
+		        .then(response => {
+		            if (!response.ok) throw new Error('Falha na resposta do servidor.');
+		            return response.json();
+		        })
+		        .then(data => {
+		            if (data.success && data.usuario) {
+		                const user = data.usuario;
+		                const usernameSpan = document.getElementById('usernameDisplay');
+		                const userImage = document.getElementById('userProfileImage');
+
+		                usernameSpan.textContent = user.nome || 'Usuário';
+
+		                if (user.imagemPerfil && user.imagemPerfil.trim() !== "") {
+		                    userImage.src = "imagens/perfil/" + user.imagemPerfil;
+		                } else {
+		                    userImage.src = "imagens/undraw_profile.svg";
+		                }
+
+		            } else {
+		                console.warn('Usuário não logado ou dados não encontrados');
+		            }
+		        })
+		        .catch(error => {
+		            console.error('Erro ao carregar dados do usuário na navbar:', error);
+		        });
+		}
+		
+		loadNavbarUser();
+			
+		function toggleAccordion(header) {
+		    const allContents = document.querySelectorAll('.accordion-content');
+		    const current = header.nextElementSibling;
+
+		    allContents.forEach(content => {
+		        if (content !== current) {
+		            content.classList.remove('active');
+		        }
+		    });
+
+		    current.classList.toggle('active');
+		}
+		
+		function mostrarMensagem(mensagem, tipo = 'info') {
+	        const area = document.getElementById("messageArea");
+	        area.className = `alert alert-${tipo}`;
+	        area.innerText = mensagem;
+	        area.style.display = 'block';
+	        setTimeout(() => area.style.display = 'none', 4000);
+	    }
+		
+	</script>
+	
+    <script src="scripts/Menu/script.js"></script>
+
+</body>
+</html>

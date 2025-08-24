@@ -1,0 +1,67 @@
+/* Minha Conta */
+
+/* Container principal */
+.container-minhaConta {
+    background: #ffffff;
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+  
+/* Título */
+.container-minhaConta h2 {
+    font-size: 26px;
+    color: #1a73e8;
+    text-align: center;
+    margin-bottom: 30px;
+}
+  
+/* Estilo do formulário */
+.container-minhaConta form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+  
+/* Rótulos */
+.container-minhaConta label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+}
+  
+/* Inputs */
+.container-minhaConta input {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+  
+.container-minhaConta input:focus {
+    border-color: #1a73e8;
+    box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+    outline: none;
+}
+  
+/* Botão */
+.container-minhaConta button {
+	background-color: #1a73e8;
+	color: #fff;
+	border: none;
+	padding: 14px;
+	border-radius: 8px;
+	font-size: 16px;
+	font-weight: bold;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+	margin-top: 10px;
+}
+  
+.container-minhaConta button:hover {
+	background-color: #155ab6;
+}

@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway:300,400,700');
+@import url("https://fonts.googleapis.com/css?family=Metal+Mania");
+@import url('https://fonts.googleapis.com/css2?family=Lobster+Two:ital@1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lobster+Two:ital@1&family=Roboto:ital,wght@1,300&display=swap');
+/**font-family: 'Lobster Two', cursive;
+font-family: 'Roboto', sans-serif;*/
+
+.btn {
+    text-align: center;
+    vertical-align: middle;
+    padding: .67em .67em;
+    cursor: pointer;
+}
+
+.btn-header {
+    margin: .5em 15% 2em 15%;
+    color: white;
+    border: 2px solid #2D9CDB;
+    background-color: rgba(255, 255, 255, .1);
+    border-radius: 0;
+    font-size: 1.5em;
+    font-weight: lighter;
+    padding-left: 2em;
+    padding-right: 2em;
+}
+
+.btn-header:hover {
+    background-color: rgba(255, 255, 255, .3);
+}
+
+.btn-play {
+    display: block;
+    margin: 0 auto;
+    color: #2D9CDB;
+    font-size: 4em;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    padding: 0;
+    text-align: center;
+}
+
+.btn-primary {
+    color: white;
+    background-color: #56CCF2;
+    border: none;
+    border-radius: .3em;
+    font-weight: bold;
+}
+
+.btn-primary:hover {
+    background-color: #2D9CDB;
+}
+
+.btn-danger {
+    color: white;
+    background-color: #EB5757;
+    border: none;
+    border-radius: .3em;
+    font-weight: bold;
+}
+
+.btn-danger:hover {
+    background-color: #CC4C4C;
+}
+
+/* pagina form-group */
+.form-group {
+	display: flex;
+    justify-content: center;
+    align-items: center;
+	right: 965px; 
+	top: 340px;
+	font-size: 120%;
+	font-weight: bold;
+}
+
+/* login text */
+.logintext {
+	display: flex;
+    justify-content: center;
+    align-items: center;
+    right: 1010px;
+    top: 235px;
+    font-size: 270%;
+    font-weight: bold;
+}
+
+/* style.css */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #D0641C;
+}
+
+form {
+	width: 300px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+/* pagina errotimeout */
+/* imagem fundo da tela de timeout */
+#errotimeout{
+    max-width: 100%;
+    background-image:url(../imgPagina/erroimg.png);
+    background-position: left;
+    background-position: center 0%;
+}
+
+/* pagina errocadastro */
+/*imagem fundo da tela de cadastro */
+#errocadastro{                
+    max-width: 100%;
+    background-image:url(../imgPagina/erroimg_1.png);
+    background-position: left;
+    background-position: center 0%;
+}
+/* pagina verificacadastracliente */
+/* imagem fundo do corpo */
+.verificaCadastraClienteBody{
+    max-width: 100%;
+    background-image:url(../imgPagina/night.jpg);
+    background-position: left;
+    background-position: center 35%;
+}

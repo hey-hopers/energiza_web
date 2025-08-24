@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    <title>Energiza - Minhas Usinas</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- FontAwesome para Ã­cones -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    
+     <!-- Fontes Customizadas -->
+     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+     <link
+         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+         rel="stylesheet">
+ 
+     <!-- Estilos Customizados CSS -->
+     <link rel="stylesheet" href="styles/menu/styles.css"> 
+	 <link rel="stylesheet" href="styles/meuNegocio/minhasUsinas/styles.css"> 
+
+</head>
+
+<body>
+
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+		<div class="bg-primary sidebar collapsed" id="sidebar">
+            <div class="sidebar-brand text-center py-3">
+                <i class="fas fa-laugh-wink fa-2x"></i>
+                <span class="sidebar-text">Energiza</span>
+            </div>
+
+            <hr class="sidebar-divider">
+
+            <ul class="list-unstyled">
+                <li>
+                    <a href="menuPrincipal.html" class="sidebar-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                </li>
+                <li>
+                    <a href="minhaConta.html" class="sidebar-link" ><i class="fas fa-user"></i> Minha Conta</a>
+                </li>
+                <li>
+                    <a href="" class="sidebar-link" data-toggle="collapse" data-target="#componentsMenu">
+                        <i class="fas fa-briefcase"></i> Meu Negócio
+                    </a>
+                    <ul id="componentsMenu" class="collapse list-unstyled ml-3">
+						<li><a href="meuNegocio.html" class="sidebar-sublink">Cadastro</a></li>
+                        <li><a href="unidadesConsumo.html" class="sidebar-sublink">Unidades de Consumo</a></li>
+						<li><a href="minhasFaturas.html" class="sidebar-sublink">Minhas Faturas</a></li>
+                        <li><a href="minhasUsinas.html" class="sidebar-sublink">Minhas Usinas</a></li>
+                        <li><a href="meusConsumidores.html" class="sidebar-sublink">Meus Consumidores</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="text-center">
+                <button class="btn btn-primary" id="menuToggle"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+        <!-- End Sidebar -->
+
+        <!-- ConteÃºdo Principal -->
+        <div id="page-content">
+            <nav class="navbar">
+                <!-- Container flexavel para alinhar os itens -->
+                <div class="navbar-content">
+            
+                    <div class="navbar-right">
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="username" id="usernameDisplay">Visitante</span>
+                                <img class="img-profile rounded-circle" id="userProfileImage" src="imagens/undraw_profile.svg">
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu shadow animated--grow-in" aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="minhaConta.html">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Minha Conta 
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Configurações
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Sair
+                                </a>
+                            </div>
+                        </li>
+                    </div>
+                </div>
+            </nav>            
+            
+            <main class="content-usina" id="mainContent">
+				<div class="container-usina">
+
+					<h2>Minhas Usinas</h2>
+
+					<div id="messageArea" class="alert alert-info" style="display: none;"></div>
+
+					<div id="buttonUsina" class="action-bar">
+					    <button onclick="abrirFormulario()">Novo</button>
+					    <button onclick="excluirUsinas()">Excluir</button>
+					</div>
+
+					<div id="formUsina" style="display: none;">
+					    <form id="usinaForm" onsubmit="event.preventDefault(); salvarUsina();">
+					        <input type="hidden" id="usinaId">
+
+					        <label for="nomeUsina">Identificação:</label>
+					        <input type="text" id="nomeUsina" required>
+
+					        <label for="porcentagem">Porcentagem %:</label>
+					        <input type="number" step="0.01" id="porcentagem" required>
+
+					        <button type="submit">Salvar</button>
+					        <button type="button" onclick="fecharFormulario()">Cancelar</button>
+					    </form>
+					</div>
+
+					<table width="90%" border="1" id="tabelaUsinas">
+					    <thead></thead>
+					    <tbody></tbody>
+					</table>
+				</div> 
+            </main>            
+        </div>
+    </div>
+
+    <!-- jQuery e Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- JavaScript personalizado -->
+    <script src="scripts/Menu/script.js"></script>
+
+	<script>
+		
+	    let usinaEditando = null;
+
+	    document.addEventListener('DOMContentLoaded', carregarUsinas);
+
+	    function carregarUsinas() {
+	        fetch('servlet/minhaUsina')
+	            .then(res => res.json())
+	            .then(data => {
+	                if (data.success) {
+	                    preencherTabela(data.usinas);
+	                } else {
+	                    mostrarMensagem(data.message || 'Erro ao carregar usinas.', 'danger');
+	                }
+	            })
+	            .catch(err => {
+	                console.error(err);
+	                mostrarMensagem('Erro ao buscar usinas.', 'danger');
+	            });
+	    }
+
+	    function preencherTabela(usinas) {
+	        const tbody = document.querySelector('#tabelaUsinas tbody');
+	        tbody.innerHTML = '';
+
+	        usinas.forEach(usina => {
+	            const tr = document.createElement('tr');
+	            tr.innerHTML = `
+	                <td style="text-align:center;"><input type="checkbox" data-id="${usina.id}"></td>
+	                <td>${usina.identificacao}</td>
+	                <td>${usina.porcentagem}%</td>
+	                <td style="text-align:center;">
+	                    <button onclick='editar(${JSON.stringify(usina)})'>Editar</button>
+	                </td>
+	            `;
+	            tbody.appendChild(tr);
+	        });
+	    }
+
+	    function abrirFormulario() {
+	        document.getElementById("formUsina").style.display = "block";
+	        document.getElementById("buttonUsina").style.display = "none";
+	        document.getElementById("tabelaUsinas").style.display = "none";
+	        limparFormulario();
+	    }
+
+	    function fecharFormulario() {
+	        document.getElementById("formUsina").style.display = "none";
+	        document.getElementById("buttonUsina").style.display = "block";
+	        document.getElementById("tabelaUsinas").style.display = "table";
+	        limparFormulario();
+	    }
+
+	    function limparFormulario() {
+	        document.getElementById("usinaId").value = "";
+	        document.getElementById("nomeUsina").value = "";
+	        document.getElementById("porcentagem").value = "";
+	        document.getElementById("idUnidadeConsumo").value = "";
+	        usinaEditando = null;
+	    }
+
+	    function salvarUsina() {
+	        const id = document.getElementById("usinaId").value;
+	        const identificacao = document.getElementById("nomeUsina").value;
+	        const porcentagem = document.getElementById("porcentagem").value;
+
+	        const formData = new URLSearchParams();
+	        formData.append("identificacao", identificacao);
+	        formData.append("porcentagem", porcentagem);
+	        if (id) formData.append("id", id);
+
+	        fetch("servlet/minhaUsina", {
+	            method: "POST",
+	            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+	            body: formData.toString()
+	        })
+	        .then(res => res.json())
+	        .then(data => {
+	            if (data.success) {
+	                mostrarMensagem(data.message || "Usina salva com sucesso.", "success");
+	                carregarUsinas();
+	                fecharFormulario();
+	            } else {
+	                mostrarMensagem(data.message || "Erro ao salvar usina.", "danger");
+	            }
+	        })
+	        .catch(err => {
+	            console.error(err);
+	            mostrarMensagem("Erro na requisição.", "danger");
+	        });
+	    }
+
+	    function editar(usina) {
+	        document.getElementById("usinaId").value = usina.id;
+	        document.getElementById("nomeUsina").value = usina.identificacao;
+	        document.getElementById("porcentagem").value = usina.porcentagem;
+	        abrirFormulario();
+	    }
+
+	    function excluirUsinas() {
+	        const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+	        if (checkboxes.length === 0) {
+	            alert("Selecione ao menos uma usina para excluir.");
+	            return;
+	        }
+
+	        if (!confirm("Tem certeza que deseja excluir as usinas selecionadas?")) return;
+
+	        checkboxes.forEach(cb => {
+	            const id = cb.getAttribute("data-id");
+
+	            fetch(`servlet/minhaUsina?id=${id}`, {
+	                method: "DELETE"
+	            })
+	            .then(res => res.json())
+	            .then(data => {
+	                if (data.success) {
+	                    mostrarMensagem(data.message || "Usina excluída com sucesso.", "success");
+	                    carregarUsinas();
+	                } else {
+	                    mostrarMensagem(data.message || "Erro ao excluir usina.", "danger");
+	                }
+	            })
+	            .catch(err => {
+	                console.error(err);
+	                mostrarMensagem("Erro ao excluir.", "danger");
+	            });
+	        });
+	    }
+
+	    function mostrarMensagem(mensagem, tipo = 'info') {
+	        const area = document.getElementById("messageArea");
+	        area.className = `alert alert-${tipo}`;
+	        area.innerText = mensagem;
+	        area.style.display = 'block';
+	        setTimeout(() => area.style.display = 'none', 4000);
+	    }
+		
+	</script>
+	
+</body>
+</html>

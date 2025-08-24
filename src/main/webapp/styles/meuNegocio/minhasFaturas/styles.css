@@ -1,0 +1,199 @@
+/* Minhas Faturas */
+
+/* Container principal */
+.container-fatura {
+  background: #ffffff;
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Título */
+.container-fatura h2 {
+  font-size: 26px;
+  color: #1a73e8;
+  text-align: center;
+  margin-bottom: 30px;
+}
+    
+/* Estilo do formulário */
+.container-fatura form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.container-fatura table {
+	margin-top: 10px;
+	padding: 5px;
+}
+
+.container-fatura img {
+	width: 15px;
+	cursor: pointer;
+}
+
+.container-fatura th {
+	padding: 2px 2px;
+	font-size: 20px;
+}
+    
+.container-fatura td {
+	padding: 2px 2px;
+	font-size: 14px;
+}
+	
+/* Rótulos */
+.container-fatura label {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* Inputs */
+.container-fatura input {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.container-fatura input:focus {
+  border-color: #1a73e8;
+  box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+  outline: none;
+}
+	
+/* Botão */
+.container-fatura button {
+  background-color: #1a73e8;
+  color: #fff;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.container-fatura button:hover {
+  background-color: #155ab6;
+}
+
+/* Botão Ações */
+.action-bar button {
+  background-color: #1a73e8;
+  color: #fff;
+  border: none;
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.action-bar button:hover {
+  background-color: #1a73e8;
+}
+
+.file-box {
+  border: 1px solid #ccc;
+  padding: 12px;
+  border-radius: 8px;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.file-box input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;  
+}
+
+.file-names {
+  margin-top: 10px;
+  font-size: 0.95em;
+  color: #333;
+}
+
+.file-box .button {
+  display: block;
+  width: 250px;
+  margin: 10px auto;
+  background-color: #1976f2;
+  color: white;
+  border: none;
+  padding: 14px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.file-box .button:hover {
+  background-color: #135fc1;
+}
+
+.dados-row {
+  display: grid;
+  grid-template-columns: 2fr 1.2fr 0.8fr; /* 3 colunas iguais */
+  gap: 16px; /* Espaço entre colunas e linhas */
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-row label {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.form-row input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.form-row input:focus {
+  border-color: #1E90FF;
+  outline: none;
+  box-shadow: 0 0 4px rgba(30,144,255,0.4);
+}
+
+/* Primeira linha: Unidade Consumo, Referência, Dias Lidos */
+#row_unidadeConsumo { grid-column: 1; }
+#row_referencia { grid-column: 2; }
+#row_dias_lidos { grid-column: 3; }
+
+/* Segunda linha: Medidor, Vencimento */
+#row_medidor { grid-column: 1; }
+#row_vencimento { grid-column: 3; }
+
+/* Terceira linha: Medidor, Vencimento */
+#row_data_leitura_atual { grid-column: 1; }
+#row_data_leitura_anterior { grid-column: 2; }
+#row_data_leitura_proxima { grid-column: 3; }
+
+/* Quarta linha: Medidor, Vencimento */
+#row_leitura_atual { grid-column: 1; }
+#row_leitura_anterior { grid-column: 2; }
+#row_total_apurado { grid-column: 3; }
+
+#row_valor_total { grid-column: 1; }
+

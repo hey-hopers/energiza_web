@@ -1,0 +1,90 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom, #0f4c75, #1b262c);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: 10px;
+    width: 400px; /* Aumentei a largura para melhorar o espaço */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: calc(100% - 10px); /* Ajuste fino para evitar encostar na borda direita */
+    padding: 10px;
+    border: none;
+    border-bottom: 2px solid white;
+    background: transparent;
+    color: white;
+    box-sizing: border-box; /* Garante que padding não ultrapasse a largura */
+}
+
+.form-group input:focus {
+    outline: none;
+    border-bottom: 2px solid #00bfff;
+}
+
+.checkbox {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.checkbox input {
+    margin-right: 10px;
+}
+
+.actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.actions a {
+    color: #00bfff;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.actions a:hover {
+    text-decoration: underline;
+}
+
+button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #00bfff;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    width: 50%;
+}
+
+button:hover {
+    background-color: #009acd;
+}
