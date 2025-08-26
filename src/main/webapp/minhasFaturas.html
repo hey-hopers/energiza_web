@@ -55,8 +55,10 @@
                         <li><a href="unidadesConsumo.html" class="sidebar-sublink">Unidades de Consumo</a></li>
 						<li><a href="minhasFaturas.html" class="sidebar-sublink">Minhas Faturas</a></li>
                         <li><a href="minhasUsinas.html" class="sidebar-sublink">Minhas Usinas</a></li>
-                        <li><a href="meusConsumidores.html" class="sidebar-sublink">Meus Consumidores</a></li>
                     </ul>
+                </li>
+				<li>
+                    <a href="meusConsumidores.html" class="sidebar-link" ><i class="fas fa-user"></i> Minhas Pessoas F/J</a>
                 </li>
             </ul>
 
@@ -126,11 +128,13 @@
 					</div>
 					
 					<div id="dadosFatura" style="display: none;">
-					    <form id="formFatura" onsubmit="event.preventDefault(); salvarFatura();" enctype="multipart/form-data">
+					    <form id="formFatura" onsubmit="event.preventDefault(); salvarFatura();">
 							<div class="dados-row">
 								<div class="form-row" id="row_unidadeConsumo">
 									<label for="unidadeConsumo">Unidade Consumo:</label>
-					                <input type="text" id="unidadeConsumo" name="unidadeConsumo" required>
+					                <select id="unidadeConsumo" name="unidadeConsumo" required>
+					                    <option value="">Selecione uma unidade de consumo</option>
+					                </select>
 								</div>  
 							  
 								<div class="form-row" id="row_referencia">
@@ -195,10 +199,23 @@
 					</div>	
 
 					<div id="tabFatura">                
-						<table width="90%" border="1" id="tabelaFaturas">
-						    <thead></thead>
-						    <tbody></tbody>
-						</table>
+						<div class="table-container">
+							<table class="faturas-table" id="tabelaFaturas">
+								<thead>
+									<tr>
+										<th>Unidade Consumo</th>
+										<th>Referência</th>
+										<th>Vencimento</th>
+										<th>Valor Total</th>
+										<th>Status</th>
+										<th>Ações</th>
+									</tr>
+								</thead>
+								<tbody>
+									<!-- Dados das faturas serão inseridos aqui via JavaScript -->
+								</tbody>
+							</table>
+						</div>
 					</div>					
 				</div>				
             </main>
@@ -213,7 +230,32 @@
     <script src="scripts/Menu/script.js"></script>
 	
 	<script>
+		/**
+		 * ========================================
+		 * SISTEMA DE GESTÃO DE FATURAS - ENERGIZA
+		 * ========================================
+		 * 
+		 * Este arquivo contém a interface principal para gerenciamento de faturas
+		 * de energia elétrica, incluindo:
+		 * - Upload e extração de dados de PDFs
+		 * - Formulário para entrada manual de dados
+		 * - Listagem e visualização de faturas
+		 * - Integração com sistema de unidades de consumo
+		 * 
+		 * Funcionalidades principais:
+		 * 1. Upload de arquivos PDF de faturas
+		 * 2. Extração automática de dados
+		3. Formulário de edição manual
+		 * 4. Validação de dados
+		 * 5. Persistência no banco de dados
+		 * 6. Listagem e gerenciamento de faturas
+		 */
 		
+		/**
+		 * Exibe uma mensagem temporária na interface do usuário
+		 * @param {string} mensagem - Texto da mensagem a ser exibida
+		 * @param {string} tipo - Tipo da mensagem: 'info', 'success', 'warning', 'danger'
+		 */
 		function mostrarMensagem(mensagem, tipo = 'info') {
 	        const area = document.getElementById("messageArea");
 	        area.className = `alert alert-${tipo}`;
@@ -222,6 +264,10 @@
 	        setTimeout(() => area.style.display = 'none', 4000);
 	    }
 				
+		/**
+		 * Abre o formulário de entrada manual de dados de fatura
+		 * Oculta outros elementos e limpa o formulário
+		 */
 		function abrirFormulario() {
 	        document.getElementById("dadosFatura").style.display = "block";
 			document.getElementById("dadosAnexo").style.display = "none";
@@ -230,6 +276,10 @@
 	        limparFormulario();
 	    }
 		
+		/**
+		 * Carrega o formulário com dados extraídos do PDF
+		 * Mantém os dados preenchidos para edição
+		 */
 		function carregarFormulario() {
 	        document.getElementById("dadosFatura").style.display = "block";
 			document.getElementById("dadosAnexo").style.display = "none";
@@ -237,6 +287,10 @@
 	        document.getElementById("tabelaFaturas").style.display = "none";
 	    }
 				
+	    /**
+	     * Fecha o formulário e retorna à visualização da tabela
+	     * Limpa todos os campos e restaura o estado inicial
+	     */
 	    function fecharFormulario() {
 	        document.getElementById("dadosFatura").style.display = "none";
 	        document.getElementById("buttonFatura").style.display = "block";
@@ -245,14 +299,29 @@
 			limparAnexo();
 	    }
 
+	    /**
+	     * Limpa todos os campos do formulário de fatura
+	     * Reseta valores para estado inicial vazio
+	     */
 	    function limparFormulario() {
-	        document.getElementById("usinaId").value = "";
-	        document.getElementById("nomeUsina").value = "";
-	        document.getElementById("porcentagem").value = "";
-	        document.getElementById("idUnidadeConsumo").value = "";
-	        ucEditando = null;
+	        document.getElementById("referencia").value = "";
+	        document.getElementById("vencimento").value = "";
+	        document.getElementById("unidadeConsumo").value = ""; // Reset do dropdown
+	        document.getElementById("dias_lidos").value = "";
+	        document.getElementById("medidor").value = "";
+	        document.getElementById("data_leitura_atual").value = "";
+	        document.getElementById("data_leitura_anterior").value = "";
+	        document.getElementById("data_leitura_proxima").value = "";
+	        document.getElementById("leitura_atual").value = "";
+	        document.getElementById("leitura_anterior").value = "";
+	        document.getElementById("total_apurado").value = "";
+	        document.getElementById("valor_total").value = "";
 	    }
 				
+		/**
+		 * Abre a interface de upload de arquivos PDF
+		 * Permite selecionar arquivos para extração de dados
+		 */
 		function abrirAnexo() {
 	        document.getElementById("dadosAnexo").style.display = "block";
 	        document.getElementById("buttonFatura").style.display = "none";
@@ -260,6 +329,10 @@
 	        limparAnexo();
 	    }
 
+		/**
+		 * Fecha a interface de upload e retorna à visualização principal
+		 * Limpa arquivos selecionados
+		 */
 		function fecharAnexo() {
 	        document.getElementById("dadosAnexo").style.display = "none";
 	        document.getElementById("buttonFatura").style.display = "block";
@@ -267,11 +340,19 @@
 	        limparAnexo();
 	    }
 		
+		/**
+		 * Limpa a seleção de arquivos e lista de arquivos
+		 * Reseta o estado do upload
+		 */
 		function limparAnexo() {
 	        document.getElementById("file-upload").value = "";
 	        document.getElementById("file-list").innerHTML = "";
 	    }
 				
+		/**
+		 * Carrega informações do usuário logado na barra de navegação
+		 * Busca dados do servidor e atualiza a interface
+		 */
 		function loadNavbarUser() {
 		    fetch('servlet/minhaConta')
 		        .then(response => {
@@ -301,11 +382,24 @@
 		        });
 		}
 		
-		loadNavbarUser();
+		// ========================================
+		// INICIALIZAÇÃO DA PÁGINA
+		// ========================================
+		loadNavbarUser(); // Carregar dados do usuário na navbar
+		carregarFaturas(); // Carregar lista de faturas existentes
+		carregarUnidadesConsumo(); // Carregar unidades de consumo disponíveis
 		
+		// ========================================
+		// CONFIGURAÇÃO DE EVENTOS
+		// ========================================
+		// Elementos para controle de upload de arquivos
 		const fileInput = document.getElementById('file-upload');
 	    const fileListDisplay = document.getElementById('file-list');
 
+	    /**
+	     * Listener para mudanças na seleção de arquivos
+	     * Atualiza a lista visual de arquivos selecionados
+	     */
 	    fileInput.addEventListener('change', () => {
 	      const files = fileInput.files;
 	      if (files.length === 0) {
@@ -316,6 +410,11 @@
 	      }
 	    });
 			
+		/**
+		 * Processa o upload e extração de dados de arquivos PDF
+		 * Envia arquivos para o servidor e extrai informações automaticamente
+		 * Preenche o formulário com os dados extraídos
+		 */
 		function salvarAnexo() {
 		    const fileInput = document.getElementById('file-upload');
 		    if (fileInput.files.length === 0) {
@@ -340,7 +439,16 @@
 		        if (data.success) {
 					
 					console.log(data);
-					document.getElementById("unidadeConsumo").value = data.fatura.unidadeConsumo || "";
+					// Atualizar o dropdown de unidade de consumo se o valor extraído existir
+					if (data.fatura.unidadeConsumo) {
+						const select = document.getElementById("unidadeConsumo");
+						const option = Array.from(select.options).find(opt => opt.value === data.fatura.unidadeConsumo);
+						if (option) {
+							select.value = data.fatura.unidadeConsumo;
+						} else {
+							console.warn("Unidade de consumo extraída não encontrada no dropdown:", data.fatura.unidadeConsumo);
+						}
+					}
 					document.getElementById("referencia").value = data.fatura.referencia || "";											
 		            document.getElementById("vencimento").value = data.fatura.vencimento || "";
 		            document.getElementById("data_leitura_anterior").value = data.fatura.data_leitura_anterior || "";
@@ -362,6 +470,233 @@
 		    .catch(error => {
 		        console.error(error);
 		        mostrarMensagem("Erro no envio do arquivo", "danger");
+		    });
+		}
+		
+		/**
+		 * Salva os dados da fatura no banco de dados
+		 * Coleta todos os campos do formulário e envia para o servidor
+		 * Processa resposta de sucesso/erro e atualiza a interface
+		 */
+		function salvarFatura() {
+		    // Obter valores dos campos
+		    const referencia = document.getElementById("referencia").value;
+		    const vencimento = document.getElementById("vencimento").value;
+		    const unidadeConsumo = document.getElementById("unidadeConsumo").value;
+		    const valorTotal = document.getElementById("valor_total").value;
+		    const diasLidos = document.getElementById("dias_lidos").value;
+		    const medidor = document.getElementById("medidor").value;
+		    const dataLeituraAnterior = document.getElementById("data_leitura_anterior").value;
+		    const dataLeituraAtual = document.getElementById("data_leitura_atual").value;
+		    const dataLeituraProxima = document.getElementById("data_leitura_proxima").value;
+		    const leituraAnterior = document.getElementById("leitura_anterior").value;
+		    const leituraAtual = document.getElementById("leitura_atual").value;
+		    const totalApurado = document.getElementById("total_apurado").value;
+		    
+		    // ========================================
+		    // DEBUG: Log dos valores capturados
+		    // ========================================
+		    console.log("DEBUG - Valores capturados:");
+		    console.log("referencia:", referencia);
+		    console.log("vencimento:", vencimento);
+		    console.log("unidadeConsumo:", unidadeConsumo);
+		    console.log("valorTotal:", valorTotal);
+		    
+		    // ========================================
+		    // PREPARAÇÃO DOS DADOS PARA ENVIO
+		    // ========================================
+		    // Criar URLSearchParams para envio via POST
+		    const params = new URLSearchParams();
+		    params.append("referencia", referencia);
+		    params.append("vencimento", vencimento);
+		    params.append("unidadeConsumo", unidadeConsumo);
+		    params.append("valor_total", valorTotal);
+		    params.append("dias_lidos", diasLidos);
+		    params.append("medidor", medidor);
+		    params.append("data_leitura_anterior", dataLeituraAnterior);
+		    params.append("data_leitura_atual", dataLeituraAtual);
+		    params.append("data_leitura_proxima", dataLeituraProxima);
+		    params.append("leitura_anterior", leituraAnterior);
+		    params.append("leitura_atual", leituraAtual);
+		    params.append("total_apurado", totalApurado);
+		    
+		    fetch("servlet/salvarFatura", {
+		        method: "POST",
+		        headers: {
+		            'Content-Type': 'application/x-www-form-urlencoded',
+		        },
+		        body: params
+		    })
+		    .then(response => {
+		        if (!response.ok) throw new Error("Erro ao salvar fatura");
+		        return response.json();
+		    })
+		    .then(data => {
+		        if (data.success) {
+		            mostrarMensagem(data.message, "success");
+		            fecharFormulario();
+		            carregarFaturas(); // Recarregar lista de faturas
+		        } else {
+		            mostrarMensagem(data.message || "Erro ao salvar fatura", "danger");
+		        }
+		    })
+		    .catch(error => {
+		        console.error(error);
+		        mostrarMensagem("Erro ao salvar fatura", "danger");
+		    });
+		}
+		
+		/**
+		 * Carrega a lista de faturas do banco de dados
+		 * Busca dados via servlet e atualiza a tabela de visualização
+		 */
+		function carregarFaturas() {
+		    fetch("servlet/listarFaturas")
+		        .then(response => {
+		            if (!response.ok) throw new Error("Erro ao carregar faturas");
+		            return response.json();
+		        })
+		        .then(data => {
+		            if (data.success) {
+		                exibirFaturas(data.faturas);
+		            } else {
+		                mostrarMensagem(data.message || "Erro ao carregar faturas", "danger");
+		            }
+		        })
+		        .catch(error => {
+		            console.error(error);
+		            mostrarMensagem("Erro ao carregar faturas", "danger");
+		        });
+		}
+		
+		/**
+		 * Renderiza a tabela de faturas na interface
+		 * Cria cabeçalho e linhas com dados das faturas
+		 * @param {Array} faturas - Lista de objetos fatura do servidor
+		 */
+		function exibirFaturas(faturas) {
+		    const tabela = document.getElementById("tabelaFaturas");
+		    const thead = tabela.querySelector("thead");
+		    const tbody = tabela.querySelector("tbody");
+		    
+		    // ========================================
+		    // PREPARAÇÃO DA TABELA
+		    // ========================================
+		    // Limpar tabela existente
+		    thead.innerHTML = "";
+		    tbody.innerHTML = "";
+		    
+		    // ========================================
+		    // VERIFICAÇÃO DE DADOS
+		    // ========================================
+		    if (faturas.length === 0) {
+		        tbody.innerHTML = "<tr><td colspan='5' class='text-center'>Nenhuma fatura encontrada</td></tr>";
+		        return;
+		    }
+		    
+		    // ========================================
+		    // CONSTRUÇÃO DO CABEÇALHO
+		    // ========================================
+		    thead.innerHTML = `
+		        <tr>
+		            <th>Referência</th>
+		            <th>Vencimento</th>
+		            <th>Unidade Consumo</th>
+		            <th>Valor Total</th>
+		            <th>Ações</th>
+		        </tr>
+		    `;
+		    
+		    // ========================================
+		    // CONSTRUÇÃO DO CORPO DA TABELA
+		    // ========================================
+		    // Iterar sobre cada fatura e criar linha correspondente
+		    faturas.forEach(fatura => {
+		        const row = document.createElement("tr");
+		        row.innerHTML = `
+		            <td>${fatura.referencia}</td>
+		            <td>${formatarData(fatura.vencimento)}</td>
+		            <td>${fatura.idUnidadeConsumo}</td>
+		            <td>R$ ${parseFloat(fatura.valorTotal).toFixed(2)}</td>
+		            <td>
+		                <button onclick="editarFatura(${fatura.idFatura})" class="btn btn-sm btn-primary">Editar</button>
+		                <button onclick="excluirFatura(${fatura.idFatura})" class="btn btn-sm btn-danger">Excluir</button>
+		            </td>
+		        `;
+		        tbody.appendChild(row);
+		    });
+		}
+		
+		/**
+		 * Formata uma string de data para exibição no formato brasileiro
+		 * @param {string} dataString - String de data no formato ISO ou similar
+		 * @returns {string} Data formatada no padrão dd/mm/aaaa
+		 */
+		function formatarData(dataString) {
+		    if (!dataString) return "";
+		    const data = new Date(dataString);
+		    return data.toLocaleDateString('pt-BR');
+		}
+		
+		/**
+		 * Função stub para edição de faturas (a ser implementada)
+		 * @param {number} idFatura - ID da fatura a ser editada
+		 */
+		function editarFatura(idFatura) {
+		    // Implementar edição de fatura
+		    console.log("Editar fatura:", idFatura);
+		}
+		
+		/**
+		 * Função stub para exclusão de faturas (a ser implementada)
+		 * @param {number} idFatura - ID da fatura a ser excluída
+		 */
+		function excluirFatura(idFatura) {
+		    if (confirm("Tem certeza que deseja excluir esta fatura?")) {
+		        // Implementar exclusão de fatura
+		        console.log("Excluir fatura:", idFatura);
+		    }
+		}
+		
+		/**
+		 * Carrega as unidades de consumo disponíveis para o usuário logado
+		 * Busca dados via servlet e preenche o dropdown de seleção
+		 */
+		function carregarUnidadesConsumo() {
+		    fetch("servlet/unidadeConsumo")
+		        .then(response => {
+		            if (!response.ok) throw new Error("Erro ao carregar unidades de consumo");
+		            return response.json();
+		        })
+		        .then(data => {
+		            if (data.success) {
+		                preencherDropdownUnidadesConsumo(data.unidades);
+		            } else {
+		                console.warn("Erro ao carregar unidades de consumo:", data.message);
+		            }
+		        })
+		        .catch(error => {
+		            console.error("Erro ao carregar unidades de consumo:", error);
+		        });
+		}
+		
+		/**
+		 * Preenche o dropdown de unidades de consumo com dados do servidor
+		 * @param {Array} unidades - Lista de objetos unidade de consumo
+		 */
+		function preencherDropdownUnidadesConsumo(unidades) {
+		    const select = document.getElementById("unidadeConsumo");
+		    // ========================================
+		    // PREPARAÇÃO DO DROPDOWN
+		    // ========================================
+		    // Manter apenas a primeira opção (placeholder)
+		    select.innerHTML = '<option value="">Selecione uma unidade de consumo</option>';
+		    
+		    unidades.forEach(unidade => {
+		        const option = document.createElement("option");
+		        option.value = unidade.id_unidade_consumo;
+		        option.textContent = `${unidade.uc_codigo} - ${unidade.apelido}`;
+		        select.appendChild(option);
 		    });
 		}
 			

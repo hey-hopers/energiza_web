@@ -26,24 +26,157 @@
   gap: 20px;
 }
 
-.container-fatura table {
-	margin-top: 10px;
-	padding: 5px;
+/* Estilos da tabela de faturas */
+.table-container {
+  overflow-x: auto;
+  margin-top: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  background: #fff;
+}
+
+.faturas-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #fff;
+}
+
+.faturas-table thead {
+  background: linear-gradient(135deg, #1a73e8, #1557b0);
+  color: white;
+}
+
+.faturas-table th {
+  padding: 16px 12px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  border: none;
+}
+
+.faturas-table tbody tr {
+  border-bottom: 1px solid #e8eaed;
+  transition: background-color 0.2s ease;
+}
+
+.faturas-table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.faturas-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.faturas-table td {
+  padding: 14px 12px;
+  font-size: 14px;
+  color: #333;
+  border: none;
+}
+
+.faturas-table .status-pago {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.faturas-table .status-pendente {
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.faturas-table .status-vencido {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.faturas-table .action-buttons {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.faturas-table .btn-action {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.btn-visualizar {
+  background-color: #1a73e8;
+  color: white;
+}
+
+.btn-visualizar:hover {
+  background-color: #1557b0;
+  transform: translateY(-1px);
+}
+
+.btn-editar {
+  background-color: #34a853;
+  color: white;
+}
+
+.btn-editar:hover {
+  background-color: #2d8e47;
+  transform: translateY(-1px);
+}
+
+.btn-excluir {
+  background-color: #ea4335;
+  color: white;
+}
+
+.btn-excluir:hover {
+  background-color: #d93025;
+  transform: translateY(-1px);
 }
 
 .container-fatura img {
-	width: 15px;
-	cursor: pointer;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
 }
 
-.container-fatura th {
-	padding: 2px 2px;
-	font-size: 20px;
+/* Estado vazio da tabela */
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: #666;
 }
-    
-.container-fatura td {
-	padding: 2px 2px;
-	font-size: 14px;
+
+.empty-state i {
+  font-size: 48px;
+  color: #ddd;
+  margin-bottom: 16px;
+}
+
+.empty-state h3 {
+  margin: 0 0 8px 0;
+  color: #333;
 }
 	
 /* Rótulos */
