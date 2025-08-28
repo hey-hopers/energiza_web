@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Energiza - Meu Negócio</title>
+    <title>Energiza - Minhas Pessoas F/J</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/css/bootstrap.min.css" rel="stylesheet">
@@ -97,53 +97,69 @@
                 </div>
             </nav>            
             
-            <main class="content-meuNegocio" id="mainContent">       
+            <main class="content-minhasPessoas" id="mainContent">       
 				
-				<div class="container-meuNegocio">            
+				<div class="container-minhasPessoas">            
 					
 					<div id="messageArea" class="alert alert-info" style="display: none;"></div>
 					
-		            <form id="negocioForm">					
-						<h2>Dados do Meu Negócio</h2>
-						
-						<h3>Informações</h3>
-												
-		                <label for="nome">Nome:</label>
-		                <input type="text" name="nome" id="nome" placeholder="Nome">
-		                
-		                <label for="documento">Documento:</label>
-		                <input type="text" name="documento" id="documento" placeholder="Documento">
-						
-						<h3>Endereço</h3>
-						
-		                <label for="cep">CEP:</label>
-		                <input type="text" name="cep" id="cep" placeholder="CEP">
-		                
-		                <label for="endereco">Endereço:</label>
-		                <input type="text" name="endereco" id="endereco" placeholder="Endereço">
-		                
-		                <label for="numero">Número:</label>
-		                <input type="text" name="numero" id="numero" placeholder="Número">
-		                
-		                <label for="complemento">Complemento:</label>
-		                <input type="text" name="complemento" id="complemento" placeholder="Complemento">
-		                
-		                <label for="bairro">Bairro:</label>
-		                <input type="text" name="bairro" id="bairro" placeholder="Bairro">
-		                
-						<label for="cidade">Cidade:</label>
-						<input type="text" name="cidade" id="cidade" placeholder="Cidade">
-						
-						<label for="estado">Estado:</label>
-						<input type="text" name="estado" id="estado" placeholder="Estado">
-						
-						<label for="pais">País:</label>
-						<input type="text" name="pais" id="pais" placeholder="País">
-						
-		                <button type="submit" id="saveButton">Salvar</button>
- 						
-		            </form>
+                    <div id="buttonPessoa" class="action-bar">
+                        <button onclick="abrirFormulario()">Novo</button>
+                    </div>
+                    
+                    <div id="dadosPessoa" style="display: none;">
+                        <form id="formPessoa" onsubmit="event.preventDefault(); salvarPessoa();">
+                            <input type="hidden" id="idPessoa" name="idPessoa">
+                            <div class="dados-row">
+                                <div class="form-row">
+                                    <label for="apelido">Apelido:</label>
+                                    <input type="text" id="apelido" name="apelido" required>
+                                </div>
+                                <div class="form-row">
+                                    <label for="nome">Nome:</label>
+                                    <input type="text" id="nome" name="nome" required>
+                                </div>
+                                <div class="form-row">
+                                    <label for="email">Email:</label>
+                                    <input type="email" id="email" name="email" required>
+                                </div>
+                                <div class="form-row">
+                                    <label for="whatsapp">Whatsapp:</label>
+                                    <input type="text" id="whatsapp" name="whatsapp">
+                                </div>
+                                <div class="form-row">
+                                    <label for="telefone">Telefone:</label>
+                                    <input type="text" id="telefone" name="telefone">
+                                </div>
+                                <div class="form-row">
+                                    <label for="dataNascimento">Data de Nascimento:</label>
+                                    <input type="date" id="dataNascimento" name="dataNascimento">
+                                </div>
+                            </div>
+                    
+                            <button type="submit">Salvar</button>
+                            <button type="button" onclick="fecharFormulario()">Cancelar</button>
+                        </form>
+                    </div>
 					
+                    <div id="tabPessoa">                
+                        <div class="table-container">
+                            <table class="pessoas-table" id="tabelaPessoas">
+                                <thead>
+                                    <tr>
+                                        <th>Apelido</th>
+                                        <th>Nome</th>
+                                        <th>Email</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Dados das pessoas serão inseridos aqui via JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
 		        </div>  
 				       
             </main>
@@ -189,102 +205,6 @@
 			}
 			
 			loadNavbarUser();
-			
-			document.addEventListener('DOMContentLoaded', function() {
-	            // Elementos do formulário
-	            const negocioForm = document.getElementById('negocioForm');
-	            const messageArea = document.getElementById('messageArea');
-	            const saveButton = document.getElementById('saveButton');
-				
-				// Função para carregar dados do usuário do servidor
-				function loadUserData() {
-				    fetch('servlet/meuNegocio')
-				        .then(response => {
-				            if (!response.ok) throw new Error('Falha na resposta do servidor.');
-				            return response.json();
-				        })
-				        .then(data => {
-				            const nomeInput = document.getElementById('nome');
-				            const documentoInput = document.getElementById('documento');
-				            const cepInput = document.getElementById('cep');
-				            const enderecoInput = document.getElementById('endereco');
-				            const numeroInput = document.getElementById('numero');
-							const complementoInput = document.getElementById('complemento');
-							const bairroInput = document.getElementById('bairro');
-							const cidadeInput = document.getElementById('cidade');
-							const estadoInput = document.getElementById('estado');
-							const paisInput = document.getElementById('pais');
-
-				            if (data.success && data.pessoa) {
-				                const user = data.pessoa;
-
-				                // Preencher os campos com os dados retornados
-				                nomeInput.value = user.nome || '';
-				                documentoInput.value = user.documento || '';
-				                cepInput.value = user.cep || '';
-				                enderecoInput.value = user.endereco || '';
-								numeroInput.value = user.numero || '';
-								complementoInput.value = user.complemento || '';
-								bairroInput.value = user.bairro || '';
-								cidadeInput.value = user.cidade || '';
-								estadoInput.value = user.estado || '';
-				                paisInput.value = user.pais;
-
-				            } else {
-				                // Não logado ou usuário não encontrado
-				                nomeInput.value = '';
-				                documentoInput.value = '';
-				                cepInput.value = '';
-				                enderecoInput.value = '';
-				                numeroInput.value = '';
-								complementoInput.value = '';
-				                bairroInput.value = '';
-				                cidadeInput.value = '';
-								estadoInput.value = '';
-				                paisInput.value = '';
-				            }
-				        })
-				        .catch(error => {
-				            console.error('Erro ao carregar dados:', error);
-				        });
-				}		
-	        
-				// Carregar dados ao iniciar
-				loadUserData();
-								        
-				// Salvar dados do formulário
-				negocioForm.addEventListener('submit', function(e) {
-				    e.preventDefault();
-				    saveButton.disabled = true;
-
-				    const formData = new FormData(negocioForm);
-				    const urlParams = new URLSearchParams();
-				    formData.forEach((value, key) => {
-				        urlParams.append(key, value);
-				    });
-
-				    fetch('servlet/meuNegocio', {
-				        method: 'POST',
-				        headers: {
-				            'Content-Type': 'application/x-www-form-urlencoded'
-				        },
-				        body: urlParams
-				    })
-				    .then(response => response.json())
-				    .then(data => {
-				        if (data.error) {
-							console.error('Erro ao salvar dados:', data.error);
-				        } 
-				    })
-				    .catch(error => {
-				        console.error('Erro ao salvar dados:', error);
-				    })
-				    .finally(() => {
-				        saveButton.disabled = false;
-				    });
-				});
-	            
-	        });
 									
 	</script>
 		
