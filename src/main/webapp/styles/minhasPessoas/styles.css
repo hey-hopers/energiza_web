@@ -1,0 +1,156 @@
+/* Minhas Pessoas */
+
+/* Container principal */
+.container-minhasPessoas {
+  background: #ffffff;
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+    
+/* Título */
+.container-minhasPessoas h2 {
+  font-size: 26px;
+  color: #1a73e8;
+  text-align: center;
+  margin-bottom: 30px;
+}
+    
+/* Estilo do formulário */
+.container-minhasPessoas form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+    
+/* Rótulos */
+.container-minhasPessoas label {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 5px;
+}
+    
+/* Inputs */
+.container-minhasPessoas input {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+    
+.container-minhasPessoas input:focus {
+  border-color: #1a73e8;
+  box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+  outline: none;
+}
+    
+/* Botão */
+.container-minhasPessoas button {
+  background-color: #1a73e8;
+  color: #fff;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.container-minhasPessoas button:hover {
+  background-color: #155ab6;
+}
+
+/* Estilos da Tabela */
+.table-container {
+  overflow-x: auto; /* Permite rolagem horizontal em telas pequenas */
+  margin-top: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.pessoas-table {
+  width: 100%;
+  border-collapse: collapse; /* Colapsa as bordas das células */
+  text-align: left;
+  background-color: #ffffff;
+}
+
+.pessoas-table thead th {
+  background-color: #1a73e8; /* Cor de fundo do cabeçalho */
+  color: #ffffff; /* Cor do texto do cabeçalho */
+  padding: 12px 15px;
+  font-weight: 700;
+  border-bottom: 2px solid #0f4c81;
+}
+
+.pessoas-table tbody td {
+  padding: 10px 15px;
+  border-bottom: 1px solid #e0e0e0;
+  color: #333;
+  vertical-align: middle;
+}
+
+.pessoas-table tbody tr:nth-child(even) {
+  background-color: #f8f9fa; /* Fundo cinza claro para linhas pares */
+}
+
+.pessoas-table tbody tr:hover {
+  background-color: #e2f0fb; /* Fundo azul claro ao passar o mouse */
+  cursor: pointer;
+}
+
+.pessoas-table input[type="checkbox"] {
+  transform: scale(1.2); /* Aumenta o tamanho do checkbox */
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.pessoas-table .action-buttons button {
+  background-color: #007bff; /* Cor de fundo para botões de ação (verde) */
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-right: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.pessoas-table .action-buttons button:hover {
+  background-color: #007bff; /* Escurece o verde no hover */
+}
+
+/* Ajustes para o formulário e botões de ação principais */
+.action-bar {
+  display: flex;
+  justify-content: flex-start; /* Alinha os botões à esquerda */
+  gap: 10px; /* Espaço entre os botões */
+  margin-bottom: 20px;
+}
+
+.action-bar button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  background-color: #007bff; /* Cor primária para botões de ação */
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.action-bar button:hover {
+  background-color: #0056b3;
+}
+
+.content-minhasPessoas {
+  padding: 20px;
+}

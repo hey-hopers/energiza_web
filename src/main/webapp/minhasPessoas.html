@@ -18,7 +18,7 @@
     
     <!-- CSS personalizado -->
     <link rel="stylesheet" href="styles/menu/styles.css">
-	<link rel="stylesheet" href="styles/meuNegocio/cadastro/styles.css">
+	<link rel="stylesheet" href="styles/minhasPessoas/styles.css">
 		
 </head>
 <body>
@@ -103,42 +103,75 @@
 					
 					<div id="messageArea" class="alert alert-info" style="display: none;"></div>
 					
-                    <div id="buttonPessoa" class="action-bar">
-                        <button onclick="abrirFormulario()">Novo</button>
-                    </div>
+                    <div id="buttonPessoas" class="action-bar">
+					    <button onclick="limparFormulario(); abrirFormulario()">Novo</button>
+					    <button onclick="excluirPessoas()" style="display: none;">Excluir</button>
+						<button onclick="filtrarPessoas()" style="display: none;">Filtrar</button>
+					</div>
                     
                     <div id="dadosPessoa" style="display: none;">
-                        <form id="formPessoa" onsubmit="event.preventDefault(); salvarPessoa();">
-                            <input type="hidden" id="idPessoa" name="idPessoa">
-                            <div class="dados-row">
-                                <div class="form-row">
-                                    <label for="apelido">Apelido:</label>
-                                    <input type="text" id="apelido" name="apelido" required>
-                                </div>
-                                <div class="form-row">
-                                    <label for="nome">Nome:</label>
-                                    <input type="text" id="nome" name="nome" required>
-                                </div>
-                                <div class="form-row">
-                                    <label for="email">Email:</label>
-                                    <input type="email" id="email" name="email" required>
-                                </div>
-                                <div class="form-row">
-                                    <label for="whatsapp">Whatsapp:</label>
-                                    <input type="text" id="whatsapp" name="whatsapp">
-                                </div>
-                                <div class="form-row">
-                                    <label for="telefone">Telefone:</label>
-                                    <input type="text" id="telefone" name="telefone">
-                                </div>
-                                <div class="form-row">
-                                    <label for="dataNascimento">Data de Nascimento:</label>
-                                    <input type="date" id="dataNascimento" name="dataNascimento">
-                                </div>
-                            </div>
+                        <form id="pessoaForm">
+
+                            <h3>Dados Gerais</h3>
+							
+							<label for="nome">Nome:</label>     
+							<input type="text" id="nome" name="nome" required>
+														
+                            <label for="apelido">Apelido:</label>     
+                            <input type="text" id="apelido" name="apelido" required>
+                                                                        
+                            <label for="tipoPessoa">Tipo Pessoa:</label>
+                            <select id="tipoPessoa" name="tipoPessoa">
+                                <option value="Nenhum">Nenhum</option>
+                                <option value="Física">Física</option>
+                                <option value="Jurídica">Jurídica</option>
+                            </select><br><br>     
+							
+                            <h3>Documento</h3>    
+
+                            <label for="nome_documento">Nome do Documento:</label>     
+                            <input type="text" id="nome_documento" name="nome_documento" required>
+
+                            <label for="numero_documento">Número do Documento:</label>     
+                            <input type="text" id="numero_documento" name="numero_documento" required><br><br>
+
+                            <h3>Endereço</h3>    
+
+                            <label for="cep">CEP:</label>     
+                            <input type="text" id="cep" name="cep" required>
+
+                            <label for="endereco">Endereço:</label>     
+                            <input type="text" id="endereco" name="endereco" required>
+
+                            <label for="numero">Número:</label>     
+                            <input type="text" id="numero" name="numero" required>
+
+                            <label for="complemento">Complemento:</label>     
+                            <input type="text" id="complemento" name="complemento">
+
+                            <label for="bairro">Bairro:</label>     
+                            <input type="text" id="bairro" name="bairro" required>
+
+                            <label for="cidade">Cidade:</label>     
+                            <input type="text" id="cidade" name="cidade" required>
+
+                            <label for="estado">Estado:</label>     
+                            <input type="text" id="estado" name="estado" required>
+
+                            <label for="pais">País:</label>     
+                            <input type="text" id="pais" name="pais" required><br><br>
+
+                            <h3>Contato</h3>    
+
+                            <label for="email">Email:</label>     
+                            <input type="text" id="email" name="email" required>
+
+                            <label for="telefone">Telefone:</label>     
+                            <input type="text" id="telefone" name="telefone" required><br><br>
+                        
                     
-                            <button type="submit">Salvar</button>
-                            <button type="button" onclick="fecharFormulario()">Cancelar</button>
+                            <button type="button" onclick="salvarPessoa()">Salvar</button>
+                            <button type="button" onclick="fecharFormulario()">Cancelar</button><br>
                         </form>
                     </div>
 					
@@ -147,10 +180,11 @@
                             <table class="pessoas-table" id="tabelaPessoas">
                                 <thead>
                                     <tr>
+										<th></th>
+                                        <th>ID</th>
                                         <th>Apelido</th>
-                                        <th>Nome</th>
-                                        <th>Email</th>
-                                        <th>Ações</th>
+                                        <th style="text-align:center;">Tipo Pessoa</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -175,36 +209,212 @@
 
 	<script>
 			
-			function loadNavbarUser() {
-			    fetch('servlet/minhaConta')
-			        .then(response => {
-			            if (!response.ok) throw new Error('Falha na resposta do servidor.');
-			            return response.json();
-			        })
-			        .then(data => {
-			            if (data.success && data.usuario) {
-			                const user = data.usuario;
-			                const usernameSpan = document.getElementById('usernameDisplay');
-			                const userImage = document.getElementById('userProfileImage');
+		let pessoaEditando = null;
 
-			                usernameSpan.textContent = user.nome || 'Usuário';
+	    document.addEventListener('DOMContentLoaded', carregarPessoas);
 
-			                if (user.imagemPerfil && user.imagemPerfil.trim() !== "") {
-			                    userImage.src = "imagens/perfil/" + user.imagemPerfil;
-			                } else {
-			                    userImage.src = "imagens/undraw_profile.svg";
-			                }
+	    function carregarPessoas() {
+	        fetch('servlet/minhasPessoas')
+	            .then(res => res.json())
+	            .then(data => { 
+					
+					console.log(data)
+					
+	                if (data.success) {
+	                    preencherTabela(data.pessoas);
+	                } else {
+	                    mostrarMensagem(data.message || 'Erro ao buscar pessoas cadastradas!', 'danger');
+	                }
+	            })
+	            .catch(err => {
+	                console.error(err);
+	                mostrarMensagem('Erro ao buscar pessoas cadastradas!', 'danger');
+	            });
+	    }
+		
+		function preencherTabela(pessoas) {
+	        const tbody = document.querySelector('#tabelaPessoas tbody');
+	        tbody.innerHTML = '';
 
-			            } else {
-			                console.warn('Usuário não logado ou dados não encontrados');
-			            }
-			        })
-			        .catch(error => {
-			            console.error('Erro ao carregar dados do usuário na navbar:', error);
-			        });
-			}
+	        pessoas.forEach(pessoa => {
+	            const tr = document.createElement('tr');
+	            tr.innerHTML = `
+	                <td style="text-align:center;"><input type="checkbox" data-id="${pessoa.id}"></td>
+	                <td>${pessoa.id_pessoa_fj}</td>
+					<td>${pessoa.apelido}</td>
+					<td style="text-align:center;">${pessoa.tipo}</td>
+	                <td style="text-align:center;" class="action-buttons">
+	                    <button onclick='editar(${JSON.stringify(pessoa)})'>Editar</button>
+						<button onclick='excluirPessoa(${pessoa.id_pessoa_fj})' class="btn-excluir">Excluir</button>
+	                </td>
+	            `;
+	            tbody.appendChild(tr);   
+	        });
+	    }
+		
+		function abrirFormulario() {
+	        document.getElementById("dadosPessoa").style.display = "block";
+	        document.getElementById("buttonPessoas").style.display = "none";
+	        document.getElementById("tabelaPessoas").style.display = "none";	        
+	    }
+
+	    function fecharFormulario() {
+	        document.getElementById("dadosPessoa").style.display = "none";
+	        document.getElementById("buttonPessoas").style.display = "block";
+	        document.getElementById("tabelaPessoas").style.display = "table";
+	        limparFormulario();
+	    }
+
+		function limparFormulario() {
+		    document.getElementById("nome").value = "";
+		    document.getElementById("apelido").value = "";
+		    document.getElementById("tipoPessoa").value = "1";
+		    document.getElementById("nome_documento").value = "";
+		    document.getElementById("numero_documento").value = "";
+		    document.getElementById("cep").value = "";
+		    document.getElementById("endereco").value = "";
+		    document.getElementById("numero").value = "";
+		    document.getElementById("complemento").value = "";
+		    document.getElementById("bairro").value = "";
+		    document.getElementById("cidade").value = "";
+		    document.getElementById("estado").value = "";
+		    document.getElementById("pais").value = "";
+		    document.getElementById("email").value = "";
+		    document.getElementById("telefone").value = "";
+		    pessoaEditando = null; 
+		}		
 			
-			loadNavbarUser();
+		function editar(pessoaData) {
+            pessoaEditando = pessoaData; // Armazena os dados da pessoa que está sendo editada
+            abrirFormulario(); // Abre o formulário
+
+            // Preenche os campos do formulário com os dados da pessoa
+            document.getElementById('nome').value = pessoaData.nome;
+            document.getElementById('apelido').value = pessoaData.apelido;
+            document.getElementById('tipoPessoa').value = pessoaData.tipo;
+            document.getElementById('nome_documento').value = pessoaData.nome_documento;
+            document.getElementById('numero_documento').value = pessoaData.numero_documento;
+            document.getElementById('cep').value = pessoaData.cep;
+            document.getElementById('endereco').value = pessoaData.endereco;
+            document.getElementById('numero').value = pessoaData.numero;
+            document.getElementById('complemento').value = pessoaData.complemento;
+            document.getElementById('bairro').value = pessoaData.bairro;
+            document.getElementById('cidade').value = pessoaData.cidade;
+            document.getElementById('estado').value = pessoaData.estado;
+            document.getElementById('pais').value = pessoaData.pais;
+            document.getElementById('email').value = pessoaData.email;
+            document.getElementById('telefone').value = pessoaData.telefone;
+        }
+				
+        function excluirPessoa(id) {
+		    if (confirm('Tem certeza que deseja excluir esta pessoa?')) {
+		        fetch(`servlet/minhasPessoas?id=${id}`, {
+		            method: 'DELETE'
+		        })
+		        .then(res => res.json())
+		        .then(data => {
+		            if (data.success) {
+		                mostrarMensagem('Pessoa excluída com sucesso!', 'success');
+		                carregarPessoas(); // Recarrega a tabela para refletir a exclusão
+		            } else {
+		                mostrarMensagem(data.message || 'Erro ao excluir pessoa.', 'danger');
+		            }
+		        })
+		        .catch(err => {
+		            console.error('Erro ao excluir pessoa:', err);
+		            mostrarMensagem('Erro ao excluir pessoa.', 'danger');
+		        });
+		    }
+		}
+
+        function salvarPessoa() {
+		    const pessoa = {
+		        id_pessoa_fj: pessoaEditando ? pessoaEditando.id_pessoa_fj : null, // Para edição, incluir o ID
+		        nome: document.getElementById('nome').value,
+		        apelido: document.getElementById('apelido').value,
+		        tipoPessoa: document.getElementById('tipoPessoa').value,
+		        nome_documento: document.getElementById('nome_documento').value,
+		        numero_documento: document.getElementById('numero_documento').value,
+		        cep: document.getElementById('cep').value,
+		        endereco: document.getElementById('endereco').value,
+		        numero: document.getElementById('numero').value,
+		        complemento: document.getElementById('complemento').value,
+		        bairro: document.getElementById('bairro').value,
+		        cidade: document.getElementById('cidade').value,
+		        estado: document.getElementById('estado').value,
+		        pais: document.getElementById('pais').value,
+		        email: document.getElementById('email').value,
+		        telefone: document.getElementById('telefone').value
+
+		    };
+
+		    const method = pessoaEditando ? 'PUT' : 'POST';
+		    const url = 'servlet/minhasPessoas';
+
+			console.log(pessoaEditando)
+			console.log(method)
+			
+		    fetch(url, {
+		        method: method,
+		        headers: {
+		            'Content-Type': 'application/json'
+		        },
+		        body: JSON.stringify(pessoa)
+		    })
+		    .then(res => res.json())
+		    .then(data => {
+		        if (data.success) {
+		            mostrarMensagem(data.message, 'success');
+		            fecharFormulario();
+		            carregarPessoas();
+		        } else {
+		            mostrarMensagem(data.message || 'Erro ao salvar pessoa.', 'danger');
+		        }
+		    })
+		    .catch(err => {
+		        console.error('Erro ao salvar pessoa:', err);
+		        mostrarMensagem('Erro ao salvar pessoa.', 'danger');
+		    });
+		}
+
+		function loadNavbarUser() {
+		    fetch('servlet/minhaConta')
+		        .then(response => {
+		            if (!response.ok) throw new Error('Falha na resposta do servidor.');
+		            return response.json();
+		        })
+		        .then(data => {
+		            if (data.success && data.usuario) {
+		                const user = data.usuario;
+		                const usernameSpan = document.getElementById('usernameDisplay');
+		                const userImage = document.getElementById('userProfileImage');
+
+		                usernameSpan.textContent = user.nome || 'Usuário';
+
+		                if (user.imagemPerfil && user.imagemPerfil.trim() !== "") {
+		                    userImage.src = "imagens/perfil/" + user.imagemPerfil;
+		                } else {
+		                    userImage.src = "imagens/undraw_profile.svg";
+		                }
+
+		            } else {
+		                console.warn('Usuário não logado ou dados não encontrados');
+		            }
+		        })
+		        .catch(error => {
+		            console.error('Erro ao carregar dados do usuário na navbar:', error);
+		        });
+		}
+		
+		loadNavbarUser();
+		
+		function mostrarMensagem(mensagem, tipo = 'info') {
+	        const area = document.getElementById("messageArea");
+	        area.className = `alert alert-${tipo}`;
+	        area.innerText = mensagem;
+	        area.style.display = 'block';
+	        setTimeout(() => area.style.display = 'none', 4000);
+	    }         
 									
 	</script>
 		

@@ -3,8 +3,9 @@ package com.energiza.EnergizaWeb.modelos.pessoa;
 public class PessoaFJ {
     
 	private int id;
-    private String nome;
-    private String documento;
+	private String nome;
+    private String apelido;
+	private String tipo;
     private String cep;
     private String endereco;
     private String numero;
@@ -13,15 +14,24 @@ public class PessoaFJ {
     private String cidade;
     private String estado;
     private String pais;
+    private String nomeDocumento;
+    private String numeroDocumento;
+    private String email;
+    private String telefone;
 
     public PessoaFJ() {   	
     }
 
     // 🔹 Construtor principal
-    public PessoaFJ(int id, String nome, String documento, String cep, String endereco, String numero, String complemento, String bairro, String cidade, String estado, String pais) {
+    public PessoaFJ(int id, String nome, String apelido, String nomeDocumento, String numeroDocumento, String email, String telefone, String cep, String endereco, String numero, String complemento, String bairro, String cidade, String estado, String pais, String tipo) {
         this.id = id;
-        this.nome = nome;
-        this.documento = documento;
+		this.nome = nome;
+        this.apelido = apelido;
+        this.tipo = tipo;
+        this.nomeDocumento = nomeDocumento;
+        this.numeroDocumento = numeroDocumento;
+        this.email = email;
+        this.telefone = telefone;
         this.cep = cep;
         this.endereco = endereco;
         this.numero = numero;
@@ -35,9 +45,14 @@ public class PessoaFJ {
     @Override
     public String toString() {
         return "PessoaFJ{" + 
-               "Nome='" + nome + '\'' + 
-               "ID='" + id + '\'' + 
-               ", Documento='" + documento + '\'' + 
+			   "ID='" + id + '\'' + 
+			   "Nome='" + nome + '\'' +
+               "Apelido='" + apelido + '\'' +   
+			   "Nome do Documento='" + nomeDocumento + '\'' +
+               "Numero do Documento='" + numeroDocumento + '\'' + 
+			   "Email='" + email + '\'' +
+               "Telefone='" + telefone + '\'' +       
+               ", Tipo='" + tipo + '\'' + 
                ", CEP='" + cep + '\'' + 
                ", Endereço='" + endereco + '\'' + 
                ", Número='" + numero + '\'' + 
@@ -67,12 +82,52 @@ public class PessoaFJ {
 		this.nome = nome;
 	}
 
-	public String getDocumento() {
-		return documento;
+	public String getApelido() {
+		return apelido;
 	}
 
-	public void setDocumento(String documento) {
-		this.documento = documento;
+	public void setApelido(String apelido) {
+		this.apelido = apelido;
+	}
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+
+	public String getNomeDocumento() {
+		return nomeDocumento;
+	}
+
+	public void setNomeDocumento(String nomeDocumento) {
+		this.nomeDocumento = nomeDocumento;
+	}
+
+	public String getNumeroDocumento() {
+		return numeroDocumento;
+	}
+
+	public void setNumeroDocumento(String numeroDocumento) {
+		this.numeroDocumento = numeroDocumento;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
 	}
 
 	public String getCep() {

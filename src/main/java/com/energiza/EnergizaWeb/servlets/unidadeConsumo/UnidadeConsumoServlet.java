@@ -99,10 +99,10 @@ public class UnidadeConsumoServlet extends HttpServlet {
                 return;   
             }
             
-            if(!pessoaFJDAO.getPessoaCadastrada(usuario.getId())) {
-            	out.print("{\"success\": false, \"message\": \"Meu negócio não encontrado!\"}");
-                return;
-            }
+//            if(!pessoaFJDAO.getPessoaCadastrada(usuario.getId())) {
+//            	out.print("{\"success\": false, \"message\": \"Meu negócio não encontrado!\"}");
+//                return;
+//            }
             
             String uc_codigo = request.getParameter("uc_codigo");
             boolean eh_geradora = Boolean.parseBoolean(request.getParameter("eh_geradora"));
@@ -118,52 +118,37 @@ public class UnidadeConsumoServlet extends HttpServlet {
             
             UnidadeConsumo uc = unidadeConsumoDAO.getUnidadeConsumo(usuario.getId()); 
             
-            PessoaFJ pessoa = pessoaFJDAO.getPessoaFJByIdUser(usuario.getId()); 
-            
-            if (uc == null) {
-                
-            	uc = new UnidadeConsumo();
-                
-            	uc.setUcCodigo(uc_codigo);
-            	uc.setEhGeradora(eh_geradora);
-            	uc.setEtapa(etapa);
-            	uc.setCep(cep);
-            	uc.setEndereco(endereco);
-            	uc.setNumero(numero);
-            	uc.setComplemento(complemento);
-            	uc.setBairro(bairro);
-            	uc.setCidade(cidade);
-            	uc.setEstado(estado);
-            	uc.setPais(pais);
-
-            	if (unidadeConsumoDAO.inserirUnidadeConsumo(uc, pessoa)) {                  
-                    out.print("{\"success\": true, \"message\": \"Cadastro de negócio criado com sucesso!\"}");
-                    
-                } else {
-                    enviarRespostaErro(response, "Erro ao criar unidade de consumo");
-                }
-            	
-            } else {      
-                
-            	uc.setUcCodigo(uc_codigo);
-            	uc.setEhGeradora(eh_geradora);
-            	uc.setEtapa(etapa);
-                uc.setCep(cep);
-                uc.setEndereco(endereco);
-                uc.setNumero(numero);
-                uc.setComplemento(complemento);
-                uc.setBairro(bairro);
-                uc.setCidade(cidade);
-                uc.setEstado(estado);
-                uc.setPais(pais);
-
-            	if (unidadeConsumoDAO.atualizarUnidadeConsumo(uc)) {
-                    out.print("{\"success\": true, \"message\": \"Cadastro de negócio editado com sucesso!\"}");
-                } else {
-                    enviarRespostaErro(response, "Erro ao editar negócio");
-                }
-            	
-            }         
+			/*
+			 * PessoaFJ pessoa = pessoaFJDAO.getPessoaFJByIdUser(usuario.getId());
+			 * 
+			 * if (uc == null) {
+			 * 
+			 * uc = new UnidadeConsumo();
+			 * 
+			 * uc.setUcCodigo(uc_codigo); uc.setEhGeradora(eh_geradora); uc.setEtapa(etapa);
+			 * uc.setCep(cep); uc.setEndereco(endereco); uc.setNumero(numero);
+			 * uc.setComplemento(complemento); uc.setBairro(bairro); uc.setCidade(cidade);
+			 * uc.setEstado(estado); uc.setPais(pais);
+			 * 
+			 * if (unidadeConsumoDAO.inserirUnidadeConsumo(uc, pessoa)) { out.
+			 * print("{\"success\": true, \"message\": \"Cadastro de negócio criado com sucesso!\"}"
+			 * );
+			 * 
+			 * } else { enviarRespostaErro(response, "Erro ao criar unidade de consumo"); }
+			 * 
+			 * } else {
+			 * 
+			 * uc.setUcCodigo(uc_codigo); uc.setEhGeradora(eh_geradora); uc.setEtapa(etapa);
+			 * uc.setCep(cep); uc.setEndereco(endereco); uc.setNumero(numero);
+			 * uc.setComplemento(complemento); uc.setBairro(bairro); uc.setCidade(cidade);
+			 * uc.setEstado(estado); uc.setPais(pais);
+			 * 
+			 * if (unidadeConsumoDAO.atualizarUnidadeConsumo(uc)) { out.
+			 * print("{\"success\": true, \"message\": \"Cadastro de negócio editado com sucesso!\"}"
+			 * ); } else { enviarRespostaErro(response, "Erro ao editar negócio"); }
+			 * 
+			 * }
+			 */        
 
         } catch (Exception e) {
             e.printStackTrace();
