@@ -133,3 +133,92 @@
 .accordion-content-initial.active {
     display: none;
 }
+
+/* Estilos da Tabela */
+.table-container {
+  overflow-x: auto; /* Permite rolagem horizontal em telas pequenas */
+  margin-top: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.unidades-consumo-table {
+  width: 100%;
+  border-collapse: collapse; /* Colapsa as bordas das células */
+  text-align: left;
+  background-color: #ffffff;
+}
+
+.unidades-consumo-table thead th {
+  background-color: #1a73e8; /* Cor de fundo do cabeçalho */
+  color: #ffffff; /* Cor do texto do cabeçalho */
+  padding: 12px 15px;
+  font-weight: 700;
+  border-bottom: 2px solid #0f4c81;
+}
+
+.unidades-consumo-table tbody td {
+  padding: 10px 15px;
+  border-bottom: 1px solid #e0e0e0;
+  color: #333;
+  vertical-align: middle;
+}
+
+.unidades-consumo-table tbody tr:nth-child(even) {
+  background-color: #f8f9fa; /* Fundo cinza claro para linhas pares */
+}
+
+.unidades-consumo-table tbody tr:hover {
+  background-color: #e2f0fb; /* Fundo azul claro ao passar o mouse */
+  cursor: pointer;
+}
+
+.unidades-consumo-table input[type="checkbox"] {
+  transform: scale(1.2); /* Aumenta o tamanho do checkbox */
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.unidades-consumo-table .action-buttons button {
+  background-color: #007bff; /* Cor de fundo para botões de ação (verde) */
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-right: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.unidades-consumo-table .action-buttons button:hover {
+  background-color: #007bff; /* Escurece o verde no hover */
+}
+
+/* Ajustes para o formulário e botões de ação principais */
+.action-bar {
+  display: flex;
+  justify-content: flex-start; /* Alinha os botões à esquerda */
+  gap: 10px; /* Espaço entre os botões */
+  margin-bottom: 20px;
+}
+
+.action-bar button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  background-color: #007bff; /* Cor primária para botões de ação */
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.action-bar button:hover {
+  background-color: #0056b3;
+}
+
+.content-unidadeConsumo {
+  padding: 20px;
+}

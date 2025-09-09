@@ -171,10 +171,24 @@
 					    </form>										   
 					</div>
 
-					<table width="90%" border="1" id="tabelaUnidadesConsumo">
-					    <thead></thead>
-					    <tbody></tbody>
-					</table>	
+					<div id="tabUnidadeConsumo">                
+                        <div class="table-container">
+                            <table class="unidades-consumo-table" id="tabelaUnidadesConsumo">
+                                <thead>
+                                    <tr>
+										<th></th>
+                                        <th>ID</th>
+										<th>UC</th>
+                                        <th>Apelido</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Dados das pessoas serão inseridos aqui via JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
 					
 				    
 				</div>
@@ -222,6 +236,7 @@
 					<td>${unidade.apelido}</td>
 	                <td style="text-align:center;">
 	                    <button onclick='editar(${JSON.stringify(unidade)})'>Editar</button>
+						<button onclick='excluirUnidade(${unidade.id_unidade_consumo})' class="btn-excluir">Excluir</button>
 	                </td>
 	            `;
 	            tbody.appendChild(tr);
@@ -260,7 +275,95 @@
 		    ucEditando = null;
 		}
 			
-				
+		function editar(unidadeData) {
+            ucEditando = unidadeData; // Armazena os dados da unidade que está sendo editada
+            abrirFormulario();
+
+            // Preenche os campos do formulário com os dados da unidade
+			 document.getElementById("uc_codigo").value = unidadeData.uc_codigo || "";
+            document.getElementById("eh_geradora").checked = unidadeData.eh_geradora || false;
+            document.getElementById("medidor").value = unidadeData.medidor || "";
+            document.getElementById("etapa").value = unidadeData.etapa || "";
+            document.getElementById("cep").value = unidadeData.cep || "";
+            document.getElementById("endereco").value = unidadeData.endereco || "";
+            document.getElementById("numero").value = unidadeData.numero || "";
+            document.getElementById("complemento").value = unidadeData.complemento || "";
+            document.getElementById("bairro").value = unidadeData.bairro || "";
+            document.getElementById("cidade").value = unidadeData.cidade || "";
+            document.getElementById("estado").value = unidadeData.estado || "";
+            document.getElementById("pais").value = unidadeData.pais || "";
+        }
+
+		function excluirUnidade(id) {
+		    if (confirm('Tem certeza que deseja excluir esta unidade de consumo?')) {
+		        fetch(`servlet/unidadeConsumo?id=${id}`, {
+		            method: 'DELETE'
+		        })
+		        .then(res => res.json())
+		        .then(data => {
+		            if (data.success) {
+		                mostrarMensagem('Unidade de consumo excluída com sucesso!', 'success');
+		                carregarUnidadeConsumo(); // Recarrega a tabela para refletir a exclusão
+		            } else {
+		                mostrarMensagem(data.message || 'Erro ao excluir unidade de consumo.', 'danger');
+		            }
+		        })
+		        .catch(err => {
+		            console.error('Erro ao excluir unidade de consumo:', err);
+		            mostrarMensagem('Erro ao excluir unidade de consumo.', 'danger');
+		        });
+		    }
+		}
+
+		function salvarUnidadeConsumo() {
+		    const unidade = {
+				id_unidade_consumo: ucEditando ? ucEditando.id_unidade_consumo : null,
+		        uc_codigo: document.getElementById('uc_codigo').value,
+		        eh_geradora: document.getElementById('eh_geradora').checked ? 1 : 0,
+		        medidor: document.getElementById('medidor').value,
+		        etapa: document.getElementById('etapa').value,
+		        cep: document.getElementById('cep').value,
+		        endereco: document.getElementById('endereco').value,
+		        numero: document.getElementById('numero').value,
+		        complemento: document.getElementById('complemento').value,
+		        bairro: document.getElementById('bairro').value,
+		        cidade: document.getElementById('cidade').value,
+		        estado: document.getElementById('estado').value,
+		        pais: document.getElementById('pais').value
+		    };
+
+		    const method = ucEditando ? 'PUT' : 'POST';
+		    const url = 'servlet/unidadeConsumo';
+		    
+		    fetch(url, {
+		        method: method,
+		        headers: {
+		            'Content-Type': 'application/json'
+		        },
+		        body: JSON.stringify(unidade)
+		    })
+		    .then(res => res.json())
+		    .then(data => {
+		        if (data.success) {
+		            mostrarMensagem(data.message, 'success');
+		            // Scroll para o topo para mostrar a mensagem
+		            window.scrollTo({ top: 0, behavior: 'smooth' });
+		            fecharFormulario();
+		            carregarUnidadeConsumo();
+		        } else {
+		            mostrarMensagem(data.message || 'Erro ao salvar unidade de consumo.', 'danger');
+		            // Scroll para o topo para mostrar a mensagem de erro
+		            window.scrollTo({ top: 0, behavior: 'smooth' });
+		        }
+		    })
+		    .catch(err => {
+		        console.error('Erro ao salvar unidade de consumo:', err);
+		        mostrarMensagem('Erro ao salvar unidade de consumo.', 'danger');
+		        // Scroll para o topo para mostrar a mensagem de erro
+		        window.scrollTo({ top: 0, behavior: 'smooth' });
+		    });
+		}
+
 		function loadNavbarUser() {
 		    fetch('servlet/minhaConta')
 		        .then(response => {

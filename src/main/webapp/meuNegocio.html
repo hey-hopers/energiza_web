@@ -104,21 +104,52 @@
 					<div id="messageArea" class="alert alert-info" style="display: none;"></div>
 					
 		            <form id="negocioForm">					
-						<h2>Dados do Meu Negócio</h2>
+						<h3>Dados do Meu Negócio</h3>
 						
-						<h3>Informações</h3>
+						<h2>Dados Gerais</h2>
 												
 		                <label for="nome">Nome:</label>
 		                <input type="text" name="nome" id="nome" placeholder="Nome">
 		                
-		                <label for="documento">Documento:</label>
-		                <input type="text" name="documento" id="documento" placeholder="Documento">
+		                <label for="apelido">Apelido:</label>
+		                <input type="text" name="apelido" id="apelido" placeholder="Apelido">
 						
-						<h3>Endereço</h3>
+						<label for="email">Email:</label>
+		                <input type="text" name="email" id="email" placeholder="Email">
+		                
+		                <label for="telefone">Telefone:</label>
+		                <input type="text" name="telefone" id="telefone" placeholder="Telefone">
+						
+						<label for="nome_documento">Nome do Documento:</label>
+		                <input type="text" name="nome_documento" id="nome_documento" placeholder="Nome do Documento">
+		                
+		                <label for="numero_documento">Número do Documento:</label>
+		                <input type="text" name="numero_documento" id="numero_documento" placeholder="Número do Documento">
+						
+						<div id="row_operador">
+							<label for="operador">Operador Energético:</label><br>
+			                <select id="operador" name="operador" required>
+			                    <option value="">Selecione um Operador Energético</option>
+			                </select>
+						</div><br>
+														
+						<h2>Endereço</h2>
 						
 		                <label for="cep">CEP:</label>
 		                <input type="text" name="cep" id="cep" placeholder="CEP">
 		                
+						<label for="pais">País:</label>
+						<input type="text" name="pais" id="pais" placeholder="País">
+												
+						<label for="estado">Estado:</label>
+						<input type="text" name="estado" id="estado" placeholder="Estado">
+						
+						<label for="cidade">Cidade:</label>
+						<input type="text" name="cidade" id="cidade" placeholder="Cidade">
+						
+						<label for="bairro">Bairro:</label>
+						<input type="text" name="bairro" id="bairro" placeholder="Bairro">
+												
 		                <label for="endereco">Endereço:</label>
 		                <input type="text" name="endereco" id="endereco" placeholder="Endereço">
 		                
@@ -126,21 +157,9 @@
 		                <input type="text" name="numero" id="numero" placeholder="Número">
 		                
 		                <label for="complemento">Complemento:</label>
-		                <input type="text" name="complemento" id="complemento" placeholder="Complemento">
-		                
-		                <label for="bairro">Bairro:</label>
-		                <input type="text" name="bairro" id="bairro" placeholder="Bairro">
-		                
-						<label for="cidade">Cidade:</label>
-						<input type="text" name="cidade" id="cidade" placeholder="Cidade">
+		                <input type="text" name="complemento" id="complemento" placeholder="Complemento">	
 						
-						<label for="estado">Estado:</label>
-						<input type="text" name="estado" id="estado" placeholder="Estado">
-						
-						<label for="pais">País:</label>
-						<input type="text" name="pais" id="pais" placeholder="País">
-						
-		                <button type="submit" id="saveButton">Salvar</button>
+		                <button type="button" onclick="salvarNegocio()">Salvar</button><br>
  						
 		            </form>
 					
@@ -158,6 +177,175 @@
     <script src="scripts/Menu/script.js"></script>
 
 	<script>
+	
+		let negocioEditando = null;
+				
+		function carregarNegocio() {
+			fetch('servlet/meuNegocio')
+				.then(response => {
+					if (!response.ok) throw new Error('Falha na resposta do servidor.');
+					return response.json();
+				})
+				.then(data => {
+					const nomeInput = document.getElementById('nome');
+					const apelidoInput = document.getElementById('apelido');
+					const emailInput = document.getElementById('email');
+					const telefoneInput = document.getElementById('telefone');
+					const nomeDocumentoInput = document.getElementById('nome_documento');
+					const numeroDocumentoInput = document.getElementById('numero_documento');
+					const operadorInput = document.getElementById('operador');
+					const cepInput = document.getElementById('cep');
+					const paisInput = document.getElementById('pais');
+					const estadoInput = document.getElementById('estado');
+					const cidadeInput = document.getElementById('cidade');
+					const bairroInput = document.getElementById('bairro');
+					const enderecoInput = document.getElementById('endereco');
+					const numeroInput = document.getElementById('numero');
+					const complementoInput = document.getElementById('complemento');
+		
+					if (data.success && data.negocio) {
+						const negocio = data.negocio;
+		
+						nomeInput.value = negocio.nome || '';
+						apelidoInput.value = negocio.apelido || '';
+						emailInput.value = negocio.email || '';
+						telefoneInput.value = negocio.telefone || '';
+						nomeDocumentoInput.value = negocio.nome_documento || '';
+						numeroDocumentoInput.value = negocio.numero_documento || '';
+						operadorInput.value = negocio.operador || '';
+						cepInput.value = negocio.cep || '';
+							paisInput.value = negocio.pais || '';
+						estadoInput.value = negocio.estado || '';
+						cidadeInput.value = negocio.cidade || '';
+						bairroInput.value = negocio.bairro || '';
+						enderecoInput.value = negocio.endereco || '';
+						numeroInput.value = negocio.numero || '';
+						complementoInput.value = negocio.complemento || '';
+
+						negocioEditando = negocio;
+
+						carregarOperadores(negocio.id_operador);
+					} else {
+
+						nomeInput.value = '';
+						apelidoInput.value = '';
+						emailInput.value = '';
+						telefoneInput.value = '';
+						nomeDocumentoInput.value = '';
+						numeroDocumentoInput.value = '';
+						operadorInput.value = '';
+						cepInput.value = '';
+						paisInput.value = '';
+						estadoInput.value = '';
+						cidadeInput.value = '';
+						bairroInput.value = '';
+						enderecoInput.value = '';
+						numeroInput.value = '';
+						complementoInput.value = '';
+
+						carregarOperadores();
+					}
+				})
+				.catch(error => {
+					console.error('Erro ao carregar dados:', error);
+					window.scrollTo({ top: 0, behavior: 'smooth' });
+
+					carregarOperadores();
+				});
+			}	
+				
+			// Carrega os operadores e opcionalmente pré-seleciona um
+			function carregarOperadores(idOperadorSelecionado = null) {
+				fetch("servlet/operadores")
+					.then(response => {
+						if (!response.ok) throw new Error("Erro ao carregar operadores");
+						return response.json();
+					})
+					.then(data => {
+						if (data.success) {
+							preencherDropdownOperadores(data.operadores, idOperadorSelecionado);
+						} else {
+							console.warn("Erro ao carregar operadores:", data.message);
+							window.scrollTo({ top: 0, behavior: 'smooth' });
+						}
+					})
+					.catch(error => {
+						console.error("Erro ao carregar operadores:", error);
+						window.scrollTo({ top: 0, behavior: 'smooth' });
+					});
+			}
+
+			// Preenche o dropdown de operadores e pré-seleciona se necessário
+			function preencherDropdownOperadores(operadores, idSelecionado = null) {
+				const select = document.getElementById("operador");
+				// Manter apenas a primeira opção (placeholder)
+				select.innerHTML = '<option value="">Selecione um Operador Energético</option>';
+				
+				operadores.forEach(operador => {
+					const option = document.createElement("option");
+					option.value = operador.id;
+					option.textContent = `${operador.id} - ${operador.apelido}`;
+					select.appendChild(option);
+				});
+				
+				// Pré-selecionar o operador se um ID foi fornecido
+				if (idSelecionado) {
+					select.value = idSelecionado;
+				}
+			}
+
+			carregarNegocio();
+
+			function salvarNegocio() {
+			    const negocio = {
+					id_negocio: negocioEditando ? negocioEditando.id_negocio : null,
+					id_operador: document.getElementById('operador').value,
+			        nome: document.getElementById('nome').value,
+			        apelido: document.getElementById('apelido').value,
+			        nome_documento: document.getElementById('nome_documento').value,
+			        numero_documento: document.getElementById('numero_documento').value,
+					operador: document.getElementById('operador').value,
+			        cep: document.getElementById('cep').value,
+			        endereco: document.getElementById('endereco').value,
+			        numero: document.getElementById('numero').value,
+			        complemento: document.getElementById('complemento').value,
+			        bairro: document.getElementById('bairro').value,
+			        cidade: document.getElementById('cidade').value,
+			        estado: document.getElementById('estado').value,
+			        pais: document.getElementById('pais').value,
+			        email: document.getElementById('email').value,
+			        telefone: document.getElementById('telefone').value
+	
+			    };
+	
+			    const method = negocioEditando ? 'PUT' : 'POST';
+			    const url = 'servlet/meuNegocio';
+				
+			    fetch(url, {
+			        method: method,
+			        headers: {
+			            'Content-Type': 'application/json'
+			        },
+			        body: JSON.stringify(negocio)
+			    })
+			    .then(res => res.json())
+			    .then(data => {
+			        if (data.success) {
+			            mostrarMensagem(data.message, 'success');
+						window.scrollTo({ top: 0, behavior: 'smooth' });
+			            carregarNegocio();
+			        } else {
+			            mostrarMensagem(data.message || 'Erro ao salvar negócio.', 'danger');
+						window.scrollTo({ top: 0, behavior: 'smooth' });
+			        }
+			    })
+			    .catch(err => {
+			        console.error('Erro ao salvar negócio:', err);
+			        mostrarMensagem('Erro ao salvar negócio.', 'danger');
+					window.scrollTo({ top: 0, behavior: 'smooth' });
+			    });
+			}
+			
 			
 			function loadNavbarUser() {
 			    fetch('servlet/minhaConta')
@@ -170,121 +358,35 @@
 			                const user = data.usuario;
 			                const usernameSpan = document.getElementById('usernameDisplay');
 			                const userImage = document.getElementById('userProfileImage');
-
+	
 			                usernameSpan.textContent = user.nome || 'Usuário';
-
+	
 			                if (user.imagemPerfil && user.imagemPerfil.trim() !== "") {
 			                    userImage.src = "imagens/perfil/" + user.imagemPerfil;
 			                } else {
 			                    userImage.src = "imagens/undraw_profile.svg";
 			                }
-
+	
 			            } else {
 			                console.warn('Usuário não logado ou dados não encontrados');
+							window.scrollTo({ top: 0, behavior: 'smooth' });
 			            }
 			        })
 			        .catch(error => {
 			            console.error('Erro ao carregar dados do usuário na navbar:', error);
+						window.scrollTo({ top: 0, behavior: 'smooth' });
 			        });
 			}
 			
 			loadNavbarUser();
 			
-			document.addEventListener('DOMContentLoaded', function() {
-	            // Elementos do formulário
-	            const negocioForm = document.getElementById('negocioForm');
-	            const messageArea = document.getElementById('messageArea');
-	            const saveButton = document.getElementById('saveButton');
-				
-				// Função para carregar dados do usuário do servidor
-				function loadUserData() {
-				    fetch('servlet/meuNegocio')
-				        .then(response => {
-				            if (!response.ok) throw new Error('Falha na resposta do servidor.');
-				            return response.json();
-				        })
-				        .then(data => {
-				            const nomeInput = document.getElementById('nome');
-				            const documentoInput = document.getElementById('documento');
-				            const cepInput = document.getElementById('cep');
-				            const enderecoInput = document.getElementById('endereco');
-				            const numeroInput = document.getElementById('numero');
-							const complementoInput = document.getElementById('complemento');
-							const bairroInput = document.getElementById('bairro');
-							const cidadeInput = document.getElementById('cidade');
-							const estadoInput = document.getElementById('estado');
-							const paisInput = document.getElementById('pais');
-
-				            if (data.success && data.pessoa) {
-				                const user = data.pessoa;
-
-				                // Preencher os campos com os dados retornados
-				                nomeInput.value = user.nome || '';
-				                documentoInput.value = user.documento || '';
-				                cepInput.value = user.cep || '';
-				                enderecoInput.value = user.endereco || '';
-								numeroInput.value = user.numero || '';
-								complementoInput.value = user.complemento || '';
-								bairroInput.value = user.bairro || '';
-								cidadeInput.value = user.cidade || '';
-								estadoInput.value = user.estado || '';
-				                paisInput.value = user.pais;
-
-				            } else {
-				                // Não logado ou usuário não encontrado
-				                nomeInput.value = '';
-				                documentoInput.value = '';
-				                cepInput.value = '';
-				                enderecoInput.value = '';
-				                numeroInput.value = '';
-								complementoInput.value = '';
-				                bairroInput.value = '';
-				                cidadeInput.value = '';
-								estadoInput.value = '';
-				                paisInput.value = '';
-				            }
-				        })
-				        .catch(error => {
-				            console.error('Erro ao carregar dados:', error);
-				        });
-				}		
-	        
-				// Carregar dados ao iniciar
-				loadUserData();
-								        
-				// Salvar dados do formulário
-				negocioForm.addEventListener('submit', function(e) {
-				    e.preventDefault();
-				    saveButton.disabled = true;
-
-				    const formData = new FormData(negocioForm);
-				    const urlParams = new URLSearchParams();
-				    formData.forEach((value, key) => {
-				        urlParams.append(key, value);
-				    });
-
-				    fetch('servlet/meuNegocio', {
-				        method: 'POST',
-				        headers: {
-				            'Content-Type': 'application/x-www-form-urlencoded'
-				        },
-				        body: urlParams
-				    })
-				    .then(response => response.json())
-				    .then(data => {
-				        if (data.error) {
-							console.error('Erro ao salvar dados:', data.error);
-				        } 
-				    })
-				    .catch(error => {
-				        console.error('Erro ao salvar dados:', error);
-				    })
-				    .finally(() => {
-				        saveButton.disabled = false;
-				    });
-				});
-	            
-	        });
+			function mostrarMensagem(mensagem, tipo = 'info') {
+		        const area = document.getElementById("messageArea");
+		        area.className = `alert alert-${tipo}`;
+		        area.innerText = mensagem;
+		        area.style.display = 'block';
+		        setTimeout(() => area.style.display = 'none', 4000);
+		    }											
 									
 	</script>
 		

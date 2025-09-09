@@ -695,7 +695,7 @@
 		    unidades.forEach(unidade => {
 		        const option = document.createElement("option");
 		        option.value = unidade.id_unidade_consumo;
-		        option.textContent = `${unidade.uc_codigo} - ${unidade.apelido}`;
+		        option.textContent = `${unidade.id_unidade_consumo} - ${unidade.apelido}`;
 		        select.appendChild(option);
 		    });
 		}

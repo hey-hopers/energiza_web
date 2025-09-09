@@ -22,8 +22,8 @@ public class UnidadeConsumoDAO {
 	        
 	        String sql = "SELECT UC.ID_UNIDADE_CONSUMO, UC.UC_CODIGO, FJ.APELIDO "
 			        		+ "FROM UNIDADE_CONSUMO UC "
-			        		+ "INNER JOIN USUARIO US ON US.ID_PESSOA = UC.ID_PESSOA_FJ_PROPRIETARIO "
 			        		+ "INNER JOIN PESSOAS_FJ FJ ON FJ.ID_PESSOAS_FJ = UC.ID_PESSOA_FJ_PROPRIETARIO "
+			        		+ "INNER JOIN USUARIO US ON US.ID = FJ.ID_USUARIO "		        		
 			        		+ "WHERE US.ID = ?"; 
 	
 	        PreparedStatement stm = con.prepareStatement(sql);	
@@ -44,76 +44,6 @@ public class UnidadeConsumoDAO {
         }
 
         return lista;
-    }
-	
-	public UnidadeConsumo getUnidadeConsumo(int usuarioID) {	
-        
-		UnidadeConsumo uc = null;
-		
-        try {
-        	
-        	Connection con = Conexao.conectar();
-	
-        	String sql = "SELECT UC.ID_UNIDADE_CONSUMO, UC.UC_CODIGO, UC.ETAPA, UC.EH_GERADORA, UC.MEDIDOR, EN.CEP, EN.ENDERECO, EN.NUMERO, EN.COMPLEMENTO, EN.BAIRRO, EN.CIDADE, EN.ESTADO, EN.PAIS, UC.ID_UC_DISTRIBUIDORA, UC.ID_PESSOA_FJ_PROPRIETARIO, UC.ID_UC_ENDERECO "
-			        			+ "	FROM UNIDADE_CONSUMO UC "
-			        			+ "	INNER JOIN USUARIO US ON US.ID_PESSOA = UC.ID_PESSOA_FJ_PROPRIETARIO "
-			        			+ "	INNER JOIN UC_ENDERECO EN ON EN.ID_UC_ENDERECO = UC.ID_UC_ENDERECO "
-			        			+ "	WHERE US.ID = ?";
-        	
-        	PreparedStatement stm = con.prepareStatement(sql);
-        	
-        	stm.setInt(1, usuarioID);
-            ResultSet rs = stm.executeQuery();
-            
-            if (rs.next()) {
-            	uc = new UnidadeConsumo();
-            	uc.setId(rs.getInt("ID_UNIDADE_CONSUMO")); 
-            	uc.setUcCodigo(rs.getString("UC_CODIGO"));
-            	uc.setEtapa(rs.getString("ETAPA"));
-            	uc.setEhGeradora(rs.getBoolean("EH_GERADORA"));
-            	uc.setMedidor(rs.getString("MEDIDOR"));
-            	uc.setCep(rs.getString("CEP"));
-            	uc.setEndereco(rs.getString("ENDERECO"));
-            	uc.setNumero(rs.getString("NUMERO"));
-            	uc.setComplemento(rs.getString("COMPLEMENTO"));
-            	uc.setBairro(rs.getString("BAIRRO"));
-            	uc.setCidade(rs.getString("CIDADE"));
-            	uc.setEstado(rs.getString("ESTADO"));
-            	uc.setPais(rs.getString("PAIS"));
-            	uc.setUcEndereco(rs.getInt("ID_UC_ENDERECO"));
-            	uc.setUcProprietario(rs.getInt("ID_PESSOA_FJ_PROPRIETARIO"));
-            	
-            }
-            
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        
-        return uc;
-    }
-	
-	public boolean getUnidadeConsumoCadastrada(int usuarioID) {
-        
-        try {
-        	
-        	Connection con = Conexao.conectar();
-        	
-        	String sql = "SELECT * FROM UNIDADE_CONSUMO UC INNER JOIN USUARIO US ON US.ID_PESSOA = UC.ID_PESSOA_FJ_PROPRIETARIO WHERE US.ID = ?";
-        	
-        	PreparedStatement stm = con.prepareStatement(sql);
-            
-        	stm.setInt(1, usuarioID);
-            ResultSet rs = stm.executeQuery();
-            
-            if (rs.next()) {
-            	return true;
-            }
-            
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        
-        return false;
     }
 	
 	public boolean inserirUnidadeConsumo(UnidadeConsumo uc, PessoaFJ pessoa) throws SQLException {
@@ -224,5 +154,56 @@ public class UnidadeConsumoDAO {
 	        return false;
 	    }
 	}
+
+	public boolean excluirUnidadeConsumo(int idUnidade) {
+        try {
+            Connection con = Conexao.conectar();
+            
+            // Primeiro, buscar o ID do endereço para excluir depois
+            String sqlGetEndereco = "SELECT ID_UC_ENDERECO FROM UNIDADE_CONSUMO WHERE ID_UNIDADE_CONSUMO = ?";
+            PreparedStatement stmGetEndereco = con.prepareStatement(sqlGetEndereco);
+            stmGetEndereco.setInt(1, idUnidade);
+            ResultSet rs = stmGetEndereco.executeQuery();
+            
+            int idEndereco = -1;
+            if (rs.next()) {
+                idEndereco = rs.getInt("ID_UC_ENDERECO");
+            }
+            rs.close();
+            stmGetEndereco.close();
+            
+            if (idEndereco == -1) {
+                // Unidade não encontrada
+                con.close();
+                return false;
+            }
+            
+            // Excluir a unidade de consumo
+            String sqlDeleteUnidade = "DELETE FROM UNIDADE_CONSUMO WHERE ID_UNIDADE_CONSUMO = ?";
+            PreparedStatement stmDeleteUnidade = con.prepareStatement(sqlDeleteUnidade);
+            stmDeleteUnidade.setInt(1, idUnidade);
+            int rowsAffected = stmDeleteUnidade.executeUpdate();
+            stmDeleteUnidade.close();
+            
+            if (rowsAffected > 0) {
+                // Se a unidade foi excluída, excluir também o endereço
+                String sqlDeleteEndereco = "DELETE FROM UC_ENDERECO WHERE ID_UC_ENDERECO = ?";
+                PreparedStatement stmDeleteEndereco = con.prepareStatement(sqlDeleteEndereco);
+                stmDeleteEndereco.setInt(1, idEndereco);
+                stmDeleteEndereco.executeUpdate();
+                stmDeleteEndereco.close();
+                
+                con.close();
+                return true;
+            } else {
+                con.close();
+                return false;
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 }
