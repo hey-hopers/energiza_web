@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 import com.energiza.EnergizaWeb.utils.Conexao;
 
 public class PessoaFJDAO {
@@ -304,6 +305,33 @@ public class PessoaFJDAO {
         
         return sucesso;
     }
+	
+	public PessoaFJ getProprietario(int idProprietario) {
+		
+		PessoaFJ pj = new PessoaFJ();
+		
+        try {
+        	
+	        Connection con = Conexao.conectar();
+	
+	        PreparedStatement stm = con.prepareStatement("SELECT * FROM PESSOAS_FJ WHERE ID_PESSOAS_FJ = ?");	
+        	
+        	stm.setInt(1, idProprietario);           
+        	ResultSet rs = stm.executeQuery(); 
+        	
+            while (rs.next()) {
+            	pj.setId(rs.getInt("ID_PESSOAS_FJ"));
+            	pj.setApelido(rs.getString("APELIDO"));
+            }
+            
+            con.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return pj;
+	}
     
 }
 

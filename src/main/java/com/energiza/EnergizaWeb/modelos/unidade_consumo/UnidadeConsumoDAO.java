@@ -20,11 +20,15 @@ public class UnidadeConsumoDAO {
         	
 	        Connection con = Conexao.conectar();
 	        
-	        String sql = "SELECT UC.ID_UNIDADE_CONSUMO, UC.UC_CODIGO, FJ.APELIDO "
-			        		+ "FROM UNIDADE_CONSUMO UC "
-			        		+ "INNER JOIN PESSOAS_FJ FJ ON FJ.ID_PESSOAS_FJ = UC.ID_PESSOA_FJ_PROPRIETARIO "
-			        		+ "INNER JOIN USUARIO US ON US.ID = FJ.ID_USUARIO "		        		
-			        		+ "WHERE US.ID = ?"; 
+	        String sql = "SELECT UNIDADE_CONSUMO.ID_UNIDADE_CONSUMO, UNIDADE_CONSUMO.UC_CODIGO, UNIDADE_CONSUMO.EH_GERADORA, UNIDADE_CONSUMO.MEDIDOR, "
+	        		+ "	   UNIDADE_CONSUMO.ID_OPERADOR_ENERGETICO, "
+	        		+ "	   UNIDADE_CONSUMO.ID_UC_DISTRIBUIDORA, "
+	        		+ "	   UNIDADE_CONSUMO.ID_PESSOA_FJ_PROPRIETARIO, "
+	        		+ "	   UNIDADE_CONSUMO.ID_ENDERECO "
+	        		+ " FROM UNIDADE_CONSUMO "
+	        		+ " INNER JOIN OPERADOR_ENERGETICO ON OPERADOR_ENERGETICO.ID_OPERADOR_ENERGETICO = UNIDADE_CONSUMO.ID_OPERADOR_ENERGETICO "
+	        		+ " INNER JOIN USUARIO ON USUARIO.ID = OPERADOR_ENERGETICO.ID_USUARIO "
+	        		+ " WHERE USUARIO.ID = ?"; 
 	
 	        PreparedStatement stm = con.prepareStatement(sql);	
         	
@@ -35,7 +39,13 @@ public class UnidadeConsumoDAO {
             	UnidadeConsumo uc = new UnidadeConsumo();
             	uc.setId(rs.getInt("ID_UNIDADE_CONSUMO"));
             	uc.setUcCodigo(rs.getString("UC_CODIGO"));
-            	uc.setNomePessoa(rs.getString("APELIDO"));
+            	uc.setEhGeradora(rs.getInt("EH_GERADORA"));
+            	uc.setMedidor(rs.getString("MEDIDOR"));
+            	uc.setIdOperador(rs.getInt("ID_OPERADOR_ENERGETICO"));
+            	uc.setIdDistribuidora(rs.getInt("ID_UC_DISTRIBUIDORA"));
+            	uc.setIdProprietario(rs.getInt("ID_PESSOA_FJ_PROPRIETARIO"));
+            	uc.setIdEndereco(rs.getInt("ID_ENDERECO"));
+            	
                 lista.add(uc);
             }
 

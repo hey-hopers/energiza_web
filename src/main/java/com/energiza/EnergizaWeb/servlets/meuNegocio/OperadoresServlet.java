@@ -12,16 +12,17 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.energiza.EnergizaWeb.modelos.Usuario;
 import com.energiza.EnergizaWeb.modelos.acesso.SessionManager;
-import com.energiza.EnergizaWeb.modelos.pessoa.PessoaFJ;
-import com.energiza.EnergizaWeb.modelos.pessoa.PessoaFJDAO;
+import com.energiza.EnergizaWeb.modelos.meuNegocio.meuNegocio;
+import com.energiza.EnergizaWeb.modelos.meuNegocio.meuNegocioDAO;
 
+@SuppressWarnings("serial")
 @WebServlet("/servlet/operadores/*")
-public class Operadores  extends HttpServlet {
-	private PessoaFJDAO pessoaDAO;
+public class OperadoresServlet  extends HttpServlet {
+	private meuNegocioDAO negocioDAO;
 	
 	@Override
     public void init() throws ServletException {
-        pessoaDAO = new PessoaFJDAO();
+		negocioDAO = new meuNegocioDAO();
     }
 
     @Override
@@ -36,15 +37,15 @@ public class Operadores  extends HttpServlet {
             return;
         }
 
-        List<PessoaFJ> pessoas = pessoaDAO.getPessoaFJByUsuario(usuario.getId());
+        List<meuNegocio> pessoas = negocioDAO.getOperadores(usuario.getId());
         StringBuilder json = new StringBuilder();
         json.append("{\"success\": true, \"operadores\": [");
 
         for (int i = 0; i < pessoas.size(); i++) {
-        	PessoaFJ fj = pessoas.get(i);
+        	meuNegocio negocio = pessoas.get(i);
             json.append(String.format(
-                "{\"id\": %d, \"apelido\": \"%s\"}",
-                fj.getId(), escapeJson(fj.getApelido())));
+                "{\"id\": %d, \"nome\": \"%s\"}",
+                negocio.getId(), escapeJson(negocio.getNome())));
             if (i < pessoas.size() - 1) json.append(",");
         }
 

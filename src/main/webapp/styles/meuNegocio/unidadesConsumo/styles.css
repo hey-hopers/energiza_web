@@ -13,7 +13,7 @@
 
 /* Título */
 .container-unidadeConsumo h2 {
-  font-size: 26px;
+  font-size: 42px;
   color: #1a73e8;
   text-align: center;
   margin-bottom: 30px;
@@ -101,37 +101,6 @@
 
 .action-bar button:hover {
   background-color: #1a73e8;
-}
-
-.accordion-item {
-    border-bottom: 1px solid #ccc;
-    margin-bottom: 5px;
-}
-
-.accordion-item h3 {
-    cursor: pointer;
-    background: #f2f2f2;
-    padding: 10px;
-    margin: 0;
-}
-
-.accordion-content {
-	display: none;
-    padding: 10px;
-    background: #fafafa;
-}
-
-.accordion-content.active {
-    display: block;
-}
-
-.accordion-content-initial {
-    padding: 10px;
-    background: #fafafa;
-}
-
-.accordion-content-initial.active {
-    display: none;
 }
 
 /* Estilos da Tabela */

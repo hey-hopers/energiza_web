@@ -6,6 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import com.energiza.EnergizaWeb.utils.Conexao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class meuNegocioDAO {
     
     // 🔹 Construtor Padrão
@@ -273,6 +276,72 @@ public class meuNegocioDAO {
         }
         
         return sucesso;
+    }
+	
+	public List<meuNegocio> getOperadores(int idUsuario) {   	
+        
+		List<meuNegocio> lista = new ArrayList<>();
+
+        try {
+        		
+			String sql = "SELECT "
+					+ "OE.ID_OPERADOR_ENERGETICO, "
+					+ "ID.NOME "
+					+ "FROM OPERADOR_ENERGETICO OE "
+					+ "JOIN IDENTIFICACAO ID ON ID.ID_IDENTIFICACAO = OE.ID_IDENTIFICACAO "
+					+ "JOIN DOCUMENTOS DO ON DO.ID_DOCUMENTO = OE.ID_DOCUMENTO "
+					+ "JOIN ENDERECOS ED ON ED.ID_ENDERECO = OE.ID_ENDERECO "
+					+ "JOIN PESSOAS_FJ FJ ON FJ.ID_PESSOAS_FJ = OE.ID_PESSOAS_FJ "
+					+ "WHERE OE.ID_USUARIO = ?"; 
+
+			Connection con = Conexao.conectar();
+			
+			PreparedStatement stmt = con.prepareStatement(sql);
+			
+			stmt.setInt(1, idUsuario);
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				meuNegocio negocio = new meuNegocio();
+				negocio.setId(rs.getInt("ID_OPERADOR_ENERGETICO"));
+				negocio.setNome(rs.getString("NOME"));
+				lista.add(negocio);
+			}
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return lista;
+    }
+	
+	public meuNegocio getOperador (int idOperador) {   	
+        
+		meuNegocio negocio = new meuNegocio();
+
+        try {
+
+			Connection con = Conexao.conectar();
+			
+			PreparedStatement stmt = con.prepareStatement("SELECT OPERADOR_ENERGETICO.ID_OPERADOR_ENERGETICO, IDENTIFICACAO.NOME FROM OPERADOR_ENERGETICO "
+															+ "INNER JOIN IDENTIFICACAO ON IDENTIFICACAO.ID_IDENTIFICACAO = OPERADOR_ENERGETICO.ID_IDENTIFICACAO "
+															+ "WHERE ID_OPERADOR_ENERGETICO = ?");
+			
+			stmt.setInt(1, idOperador);
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				
+				negocio.setId(rs.getInt("ID_OPERADOR_ENERGETICO"));
+				negocio.setNome(rs.getString("NOME"));
+				
+			}
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return negocio;
     }
 
 }

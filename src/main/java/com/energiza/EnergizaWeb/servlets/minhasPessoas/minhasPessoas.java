@@ -11,10 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.energiza.EnergizaWeb.modelos.Usuario;
-import com.energiza.EnergizaWeb.modelos.UsuarioDAO;
 import com.energiza.EnergizaWeb.modelos.pessoa.PessoaFJ;
 import com.energiza.EnergizaWeb.modelos.pessoa.PessoaFJDAO;
-import com.energiza.EnergizaWeb.modelos.unidade_consumo.UnidadeConsumo;
 import com.energiza.EnergizaWeb.modelos.acesso.SessionManager;
 
 import java.io.BufferedReader;
@@ -22,12 +20,10 @@ import java.io.BufferedReader;
 @WebServlet("/servlet/minhasPessoas/*")
 public class minhasPessoas extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private UsuarioDAO usuarioDAO;
     private PessoaFJDAO pessoaFJDAO;
 	
 	public minhasPessoas() {
         super();
-        usuarioDAO = new UsuarioDAO();
         pessoaFJDAO = new PessoaFJDAO();
     }
 

@@ -10,10 +10,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.energiza.EnergizaWeb.modelos.Endereco;
+import com.energiza.EnergizaWeb.modelos.EnderecoDAO;
 import com.energiza.EnergizaWeb.modelos.Usuario;
 import com.energiza.EnergizaWeb.modelos.acesso.SessionManager;
+import com.energiza.EnergizaWeb.modelos.meuNegocio.meuNegocio;
+import com.energiza.EnergizaWeb.modelos.meuNegocio.meuNegocioDAO;
 import com.energiza.EnergizaWeb.modelos.pessoa.PessoaFJ;
 import com.energiza.EnergizaWeb.modelos.pessoa.PessoaFJDAO;
+import com.energiza.EnergizaWeb.modelos.unidade_consumo.Distribuidora;
+import com.energiza.EnergizaWeb.modelos.unidade_consumo.DistribuidoraDAO;
 import com.energiza.EnergizaWeb.modelos.unidade_consumo.UnidadeConsumo;
 import com.energiza.EnergizaWeb.modelos.unidade_consumo.UnidadeConsumoDAO;
 
@@ -22,11 +28,17 @@ public class UnidadeConsumoServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private UnidadeConsumoDAO unidadeConsumoDAO;
     private PessoaFJDAO pessoaFJDAO;
+    private EnderecoDAO enderecoDAO;
+    private DistribuidoraDAO distribuidoraDAO;
+    private meuNegocioDAO negocioDAO;
 
     public UnidadeConsumoServlet() {
         super();
         unidadeConsumoDAO = new UnidadeConsumoDAO();
         pessoaFJDAO = new PessoaFJDAO();
+        enderecoDAO = new EnderecoDAO();
+        distribuidoraDAO = new DistribuidoraDAO();
+        negocioDAO = new meuNegocioDAO();
     }
 
     @Override
@@ -43,20 +55,36 @@ public class UnidadeConsumoServlet extends HttpServlet {
             out.print("{\"success\": false, \"message\": \"Usuário não logado!\"}");
             return;
         }
-
+        
         List<UnidadeConsumo> unidadesConsumo = unidadeConsumoDAO.getUnidadesConsumoByUsuario(usuario.getId());
         StringBuilder json = new StringBuilder();
         json.append("{\"success\": true, \"unidades\": [");
         
         for (int i = 0; i < unidadesConsumo.size(); i++) {
+        	
         	UnidadeConsumo uc = unidadesConsumo.get(i);
+        	
+        	Endereco endereco = enderecoDAO.getEndereco(uc.getIdEndereco());
+        	
+        	PessoaFJ pj = pessoaFJDAO.getProprietario(uc.getIdProprietario());
+        	
+        	Distribuidora dist = distribuidoraDAO.getDistribuidora(uc.getIdDistribuidora());
+        	
+        	meuNegocio operador = negocioDAO.getOperador(uc.getIdOperador());
+        	
         	json.append(String.format(
         		    "{" +
         		    "\"id_unidade_consumo\": %d," +
         		    "\"uc_codigo\": \"%s\"," +
         		    "\"eh_geradora\": %b," +
-        		    "\"medidor\": \"%s\"," +
-        		    "\"etapa\": \"%s\"," +
+        		    "\"medidor\": \"%s\"," + 
+        		    "\"id_operador\": %d," +
+        		    "\"nome_operador\": \"%s\"," +
+        		    "\"id_distribuidora\": %d," +
+        		    "\"nome_distribuidora\": \"%s\"," +
+        		    "\"id_proprietario\": %d," +
+        		    "\"apelido_proprietario\": \"%s\"," +
+        		    "\"id_endereco\": %d," +
         		    "\"cep\": \"%s\"," +
         		    "\"endereco\": \"%s\"," +
         		    "\"numero\": \"%s\"," +
@@ -64,23 +92,28 @@ public class UnidadeConsumoServlet extends HttpServlet {
         		    "\"bairro\": \"%s\"," +
         		    "\"cidade\": \"%s\"," +
         		    "\"estado\": \"%s\"," +
-        		    "\"pais\": \"%s\"," +
-        		    "\"apelido\": \"%s\"" +  
+        		    "\"pais\": \"%s\"" +
         		    "}",                  
         		    uc.getId(),
         		    escapeJson(uc.getUcCodigo()),
-        		    uc.isEhGeradora(),
+        		    uc.getEhGeradora(),
         		    escapeJson(uc.getMedidor() != null ? uc.getMedidor() : ""),
-        		    escapeJson(uc.getEtapa() != null ? uc.getEtapa() : ""),
-        		    escapeJson(uc.getCep() != null ? uc.getCep() : ""),
-        		    escapeJson(uc.getEndereco() != null ? uc.getEndereco() : ""),
-        		    escapeJson(uc.getNumero() != null ? uc.getNumero() : ""),
-        		    escapeJson(uc.getComplemento() != null ? uc.getComplemento() : ""),
-        		    escapeJson(uc.getBairro() != null ? uc.getBairro() : ""),
-        		    escapeJson(uc.getCidade() != null ? uc.getCidade() : ""),
-        		    escapeJson(uc.getEstado() != null ? uc.getEstado() : ""),
-        		    escapeJson(uc.getPais() != null ? uc.getPais() : ""),
-        		    escapeJson(uc.getNomePessoa())
+        		    operador.getId(),
+        		    escapeJson(operador.getNome()),
+        		    dist.getId(),
+        		    escapeJson(dist.getNome()),
+        		    pj.getId(),
+        		    escapeJson(pj.getApelido()),
+        		    endereco.getId(),
+        		    escapeJson(endereco.getCep()),
+        		    escapeJson(endereco.getEndereco()),
+        		    escapeJson(endereco.getNumero()),
+        		    escapeJson(endereco.getComplemento()),
+        		    escapeJson(endereco.getBairro()),
+        		    escapeJson(endereco.getCidade()),
+        		    escapeJson(endereco.getEstado()),
+        		    escapeJson(endereco.getPais())
+        		    
         		));
             if (i < unidadesConsumo.size() - 1) json.append(",");
         }
@@ -221,11 +254,11 @@ public class UnidadeConsumoServlet extends HttpServlet {
                     return;
                 }
                 
-                sucesso = unidadeConsumoDAO.inserirUnidadeConsumo(uc, pessoa);
-                mensagem = sucesso ? "Unidade de consumo criada com sucesso!" : "Erro ao criar unidade de consumo";
+                // sucesso = unidadeConsumoDAO.inserirUnidadeConsumo(uc, pessoa);
+                // mensagem = sucesso ? "Unidade de consumo criada com sucesso!" : "Erro ao criar unidade de consumo";
             }
             
-            out.print(String.format("{\"success\": %s, \"message\": \"%s\"}", sucesso, escapeJson(mensagem)));
+            // out.print(String.format("{\"success\": %s, \"message\": \"%s\"}", sucesso, escapeJson(mensagem)));
             
         } catch (Exception e) {
             e.printStackTrace();
